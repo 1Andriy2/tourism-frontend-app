@@ -1,5 +1,6 @@
 import { FC, Suspense, ReactElement, lazy } from "react"
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom"
+import { Progress } from "@chakra-ui/react"
 
 import { Layout } from "../../../shared/ui"
 import { urls } from "../../../shared/config"
@@ -11,12 +12,14 @@ const router = createBrowserRouter([
   {
     path: urls.home,
     element: (
-        <Layout>
-          <Layout.Header />
-          <Layout.Content>
-            <Outlet />
-          </Layout.Content>
-        </Layout>
+      <Layout>
+        <Layout.Header />
+        <Layout.Content>
+          {/* <Parallax className="prlx-container" pages={2}> */}
+          <Outlet />
+          {/* </Parallax> */}
+        </Layout.Content>
+      </Layout>
     ),
     children: [
       {
@@ -49,11 +52,11 @@ const router = createBrowserRouter([
 ]);
 
 const withRouter: (Component: FC<any | undefined>) => () => ReactElement<any, any> = (Component) => () => (
-  <Suspense fallback={<p>Loading...</p>}>
-    <Component>
+  <Component>
+    <Suspense fallback={<Progress size='xs' colorScheme="whatsapp" isIndeterminate />}>
       <RouterProvider router={router} />
-    </Component>
-  </Suspense>
+    </Suspense>
+  </Component>
 )
 
 export default withRouter

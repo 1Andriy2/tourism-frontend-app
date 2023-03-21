@@ -1,7 +1,7 @@
 import { useAtom } from "jotai"
 import { authStore, initAuthData, IAuthData } from "../store"
 
-export default function useAuth() {
+export function useViewerAtom() {
     const [auth, setAuth] = useAtom(authStore)
     
     const setAuthData = (data: IAuthData) => setAuth(data) 
@@ -17,6 +17,7 @@ export default function useAuth() {
     // }
     
     return {
+        isAuthenticated: !!auth.token,
         authData: auth,
         setAuthData,
         removeAuthData

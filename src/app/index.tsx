@@ -1,11 +1,12 @@
-import { Suspense, useState } from 'react'
+import { ReactNode } from 'react'
+
 import withProviders from './providers'
 
-function App() {
+function App({ children }: { children: ReactNode }) {
   return (
-   <div>
-
-   </div>
+   <>
+      {children}
+   </>
   )
 }
 

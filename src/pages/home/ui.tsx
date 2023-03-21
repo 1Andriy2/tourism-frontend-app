@@ -2,14 +2,14 @@ import { Box, Button, Heading, Highlight } from "@chakra-ui/react";
 import { UseModel } from "../../features/nav-list";
 
 export default function HomePage() {
-  const {isLight} = UseModel.useThemeMode()
+  const { isLight } = UseModel.useThemeMode()
 
   return (
-    <Box minHeight="calc(100vh - 263px)" display="flex" flexDirection="column" justifyContent="center">
+    <Box minHeight="calc(100vh - 263px)" display="flex" flexDirection="column" justifyContent="space-evenly">
       <Heading size="3xl">
         Tourism
       </Heading>
-      <Heading size="lg" fontWeight="normal" lineHeight="50px" my={10}>
+      <Heading size="lg" fontWeight="normal" lineHeight="50px">
         <Highlight
           query={["dolor", "natus", "libero"]}
           styles={{ px: "2", py: "1", rounded: "full", bg: "whatsapp.400", color: isLight ? "white" : "black" }}

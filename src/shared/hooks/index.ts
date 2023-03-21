@@ -1,0 +1,1 @@
+export { default as useAnimateView } from "./use-animate-view"

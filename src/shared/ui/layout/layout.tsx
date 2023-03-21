@@ -1,7 +1,8 @@
 import { ReactNode } from "react"
 
 import Content from "./content"
-import { Header } from "../../../widgets"
+import MainLayout from "./main-layout"
+import { Header, Aside } from "../../../widgets"
 
 export default function Layout({ children }: { children: ReactNode }) {
     return (
@@ -11,6 +12,10 @@ export default function Layout({ children }: { children: ReactNode }) {
     )
 }
 
+// COnstructor
 Layout.Header = Header
-// Layout.Aside = Aside
+Layout.Aside = Aside
 Layout.Content = Content
+
+// LAYOUTS
+Layout.MainLayout = MainLayout

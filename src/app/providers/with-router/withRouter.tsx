@@ -1,9 +1,9 @@
 import { FC, Suspense, ReactElement, lazy } from "react"
-import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom"
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { Progress } from "@chakra-ui/react"
 
-import { Layout } from "../../../shared/ui"
 import { urls } from "../../../shared/config"
+import MainLayout from "../../../shared/ui/layout/main-layout"
 
 const HomePage = lazy(() => import("../../../pages/home"))
 const AboutPage = lazy(() => import("../../../pages/about"))
@@ -11,16 +11,7 @@ const AboutPage = lazy(() => import("../../../pages/about"))
 const router = createBrowserRouter([
   {
     path: urls.home,
-    element: (
-      <Layout>
-        <Layout.Header />
-        <Layout.Content>
-          {/* <Parallax className="prlx-container" pages={2}> */}
-          <Outlet />
-          {/* </Parallax> */}
-        </Layout.Content>
-      </Layout>
-    ),
+    element: (<MainLayout />),
     children: [
       {
         path: urls.home,

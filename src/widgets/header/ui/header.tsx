@@ -1,17 +1,19 @@
-import { Box } from "@chakra-ui/react"
+import { Box, useMediaQuery } from "@chakra-ui/react"
 
 import Content from "./content"
 import { NavList } from "../../../features"
 import { Container } from "../../../shared/ui"
 
-export default function Header() {
+export default function Header(props: { onOpenAside: () => void }) {
+  const [isLargerThan800] = useMediaQuery("(max-width:950px)")
+
   return (
-    <Box position="fixed" insetX="0" top="0" p="10">
-        <Container>
-            <Header.Content>
-                <NavList />
-            </Header.Content>
-        </Container>
+    <Box position="fixed" insetX="0" top="0" p={isLargerThan800 ? "5" : "10"}>
+      <Container>
+        <Header.Content>
+          <NavList {...props} />
+        </Header.Content>
+      </Container>
     </Box>
   )
 }

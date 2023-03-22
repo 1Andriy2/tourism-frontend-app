@@ -4,6 +4,8 @@ import App from './app'
 
 import "./processes/firebase"
 
+import "./shared/css/index.css"
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App />

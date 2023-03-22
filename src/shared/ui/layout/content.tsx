@@ -5,8 +5,8 @@ import Container from "../container/ui"
 
 const Content: FC<{ children: ReactNode }> = ({ children }) => {
   return (
-    <Container margin={40}>
-        {children}
+    <Container margin="123px">
+      {children}
     </Container>
   )
 }

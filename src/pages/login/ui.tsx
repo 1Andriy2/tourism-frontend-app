@@ -1,7 +1,7 @@
-import { LogInForm } from "../../features/auth";
+import { AuthForm } from "../../features/auth";
 
 export default function LogInPage() {
     return (
-        <LogInForm />
+        <AuthForm.LoginTemplate />
     )
 }

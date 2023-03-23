@@ -7,17 +7,17 @@ import { FormControl, FormLabel, Input, Button, FormErrorMessage, VStack } from 
 import { useToastView } from "../../../shared/hooks"
 
 import { urls } from "../../../shared/config"
-import { LOG_IN_STATE } from "../lib/constant"
-import { LogInSchema } from "../model/validators"
+import { REGISTER_STATE } from "../lib/constant"
+import { RegisterSchema } from "../model/validators"
 
-export default function LogInForm() {
+export default function RegisterForm() {
     const toast = useToastView()
     const formik = useFormik({
-        initialValues: LOG_IN_STATE,
-        validationSchema: LogInSchema,
+        initialValues: REGISTER_STATE,
+        validationSchema: RegisterSchema,
         onReset: () => { },
         onSubmit: (values) => {
-            toast({ status: "success", title: "Loginned.", description: JSON.stringify(values) })
+            toast({ status: "success", title: 'Account created.', description: JSON.stringify(values) })
         }
     })
 
@@ -39,6 +39,20 @@ export default function LogInForm() {
                     />
                     <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
                 </FormControl>
+
+                <FormControl isInvalid={!!(formik.errors.name && formik.touched.name)}>
+                    <FormLabel>Input Name:</FormLabel>
+                    <Input
+                        type="text"
+                        name="name"
+                        isRequired
+                        placeholder='Input Name'
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
+                </FormControl>
                 <FormControl isInvalid={!!(formik.errors.password && formik.touched.password)}>
                     <FormLabel>Input Password:</FormLabel>
                     <Input
@@ -51,6 +65,19 @@ export default function LogInForm() {
                         onBlur={formik.handleBlur}
                     />
                     <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={!!(formik.errors.confirmPassword && formik.touched.confirmPassword)}>
+                    <FormLabel>Confirm Password:</FormLabel>
+                    <Input
+                        type="password"
+                        name="confirmPassword"
+                        isRequired
+                        placeholder='Confirm Password'
+                        value={formik.values.confirmPassword}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                    />
+                    <FormErrorMessage>{formik.errors.confirmPassword}</FormErrorMessage>
                 </FormControl>
                 <Button
                     type='submit'

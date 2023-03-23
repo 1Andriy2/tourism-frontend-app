@@ -6,7 +6,6 @@ import { getFirestore } from "firebase/firestore"
 const firebaseConfig = {
   apiKey: "AIzaSyAxWU9gtnZi9cPwTbFv4nnDhfoA5u97_ZY",
   authDomain: "tourism-backend-app.firebaseapp.com",
-  databaseURL: "https://tourism-backend-app-default-rtdb.europe-west1.firebasedatabase.app",
   projectId: "tourism-backend-app",
   storageBucket: "tourism-backend-app.appspot.com",
   messagingSenderId: "170420041030",

@@ -1,25 +1,3 @@
-import { useAtom } from "jotai"
-import { authStore, initAuthData, IAuthData } from "../store"
-
-export function useViewerAtom() {
-    const [auth, setAuth] = useAtom(authStore)
-    
-    const setAuthData = (data: IAuthData) => setAuth(data) 
-
-    const removeAuthData = () => setAuth(initAuthData) 
-   
-    // async function login() {
-        
-    // }
-
-    // async function register() {
-        
-    // }
-    
-    return {
-        isAuthenticated: !!auth.token,
-        authData: auth,
-        setAuthData,
-        removeAuthData
-    }
-}
+export { default as useViewerAtom } from "./use-viewer-atom"
+export { default as usePrivateRoute } from "./use-private-route"
+export { default as useRestrictedRoute } from "./use-restricted-route"

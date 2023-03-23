@@ -4,9 +4,12 @@ import { HStack, Icon, Button, useMediaQuery } from "@chakra-ui/react"
 import { AtSignIcon, SunIcon, MoonIcon, HamburgerIcon } from '@chakra-ui/icons'
 
 import { UseModel } from "..";
+import { useViewerAtom } from "../../../entities/viewer/model";
 import { urls } from "../../../shared/config";
 
 export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
+    const { isAuthenticated, removeAuthData } = useViewerAtom()
+
     const [isLargerThan800] = useMediaQuery("(max-width:950px)")
     const { isLight, toggleColorMode } = UseModel.useThemeMode()
 
@@ -22,12 +25,22 @@ export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
                 </HStack>
             </HStack>
             <HStack spacing={isLargerThan800 ? 2 : 5}>
-                <Button as={ReachLink} variant="ghost" colorScheme="whatsapp" to={urls.logIn}>
-                    LogIn
-                </Button>
-                <Button as={ReachLink} variant="ghost" colorScheme="whatsapp" to={urls.register}>
-                    Register
-                </Button>
+                {isAuthenticated ? (
+                    <Fragment>
+                        <Button variant="ghost" colorScheme="whatsapp" onClick={removeAuthData}>
+                            LogOut
+                        </Button>
+                    </Fragment>
+                ) : (
+                    <Fragment>
+                        <Button as={ReachLink} variant="ghost" colorScheme="whatsapp" to={urls.logIn}>
+                            LogIn
+                        </Button>
+                        <Button as={ReachLink} variant="ghost" colorScheme="whatsapp" to={urls.register}>
+                            Register
+                        </Button>
+                    </Fragment>
+                )}
                 <Button variant={"unstyled"} onClick={toggleColorMode}>
                     <Icon as={isLight ? SunIcon : MoonIcon} height={18} width={18} color="whatsapp.400" />
                 </Button>

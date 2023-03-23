@@ -5,6 +5,7 @@ import { ArrowLeftIcon } from "@chakra-ui/icons"
 import { FormControl, FormLabel, Input, Button, FormErrorMessage, VStack } from "@chakra-ui/react"
 
 import { useToastView } from "../../../shared/hooks"
+import { useViewerAtom } from "../../../entities/viewer/model"
 
 import { urls } from "../../../shared/config"
 import { REGISTER_STATE } from "../lib/constant"
@@ -12,11 +13,14 @@ import { RegisterSchema } from "../model/validators"
 
 export default function RegisterForm() {
     const toast = useToastView()
+    const { setAuthData } = useViewerAtom()
     const formik = useFormik({
         initialValues: REGISTER_STATE,
         validationSchema: RegisterSchema,
         onReset: () => { },
         onSubmit: (values) => {
+            const { email, name, password } = values
+            setAuthData({ token: new Date().toISOString(), data: { id: Math.random(), email, name, password } })
             toast({ status: "success", title: 'Account created.', description: JSON.stringify(values) })
         }
     })

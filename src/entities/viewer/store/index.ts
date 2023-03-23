@@ -9,9 +9,9 @@ export interface IUserData {
     id: number
     name: string
     email: string,
-    phone: number
+    password: string
 }
 
-export const initAuthData = {token: null, data: null} 
+export const initAuthData = { token: null, data: null }
 
 export const authStore = atomWithStorage("auth", initAuthData as IAuthData)

@@ -1,1 +1,1 @@
-export * as ModelViewer from './model'
+export * as ModelViewer from './model/use-viewer-atom'

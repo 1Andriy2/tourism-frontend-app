@@ -4,9 +4,9 @@ import withProviders from './providers'
 
 function App({ children }: { children: ReactNode }) {
   return (
-   <>
+    <>
       {children}
-   </>
+    </>
   )
 }
 

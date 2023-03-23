@@ -1,11 +1,9 @@
-import axios from 'axios'
+import { collection, getDocs } from "firebase/firestore";
 
-axios.defaults.baseURL = ""
+import { firestore } from '../../processes/firebase';
 
-export function setToken(token: string):void{
-    axios.defaults.headers.Authorization = `Bearer ${token}`
-}
-
-export function removeToken(){
-    axios.defaults.headers.Authorization = null
+export const getViewers = async () => {
+    const docs = (await getDocs(collection(firestore, "users"))).docs
+    const users = docs.map(doc => doc.data())
+    return users
 }

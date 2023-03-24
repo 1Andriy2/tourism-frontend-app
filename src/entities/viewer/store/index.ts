@@ -6,7 +6,7 @@ export interface IAuthData {
 }
 
 export interface IUserData {
-    id: number
+    // id: string
     name: string
     email: string,
     password: string

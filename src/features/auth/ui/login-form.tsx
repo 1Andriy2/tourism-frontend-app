@@ -2,6 +2,7 @@ import * as yup from "yup"
 import { Link as ReachLink } from "react-router-dom"
 import { useFormik } from "formik"
 import { ArrowLeftIcon } from "@chakra-ui/icons"
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { FormControl, FormLabel, Input, Button, FormErrorMessage, VStack } from "@chakra-ui/react"
 
 import { useToastView } from "../../../shared/hooks"
@@ -9,6 +10,7 @@ import { useToastView } from "../../../shared/hooks"
 import { urls } from "../../../shared/config"
 import { LOG_IN_STATE } from "../lib/constant"
 import { LogInSchema } from "../model/validators"
+import { useViewerAtom } from "../../../entities/viewer/model";
 
 export default function LogInForm() {
     const toast = useToastView()
@@ -17,7 +19,19 @@ export default function LogInForm() {
         validationSchema: LogInSchema,
         onReset: () => { },
         onSubmit: (values) => {
-            toast({ status: "success", title: "Loginned.", description: JSON.stringify(values) })
+            const { email, password } = values
+            const auth = getAuth();
+            signInWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                const user = userCredential.user;
+                toast({ status: "success", title: "Loginned.", description: JSON.stringify(values) })
+                // useViewerAtom().setAuthData({token:"",data:user)
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorMessage)
+            });
         }
     })
 
@@ -63,3 +77,4 @@ export default function LogInForm() {
         </form>
     )
 }
+

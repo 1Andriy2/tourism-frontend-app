@@ -2,6 +2,7 @@ import * as yup from "yup"
 import { Link as ReachLink } from "react-router-dom"
 import { useFormik } from "formik"
 import { ArrowLeftIcon } from "@chakra-ui/icons"
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { FormControl, FormLabel, Input, Button, FormErrorMessage, VStack } from "@chakra-ui/react"
 
 import { useToastView } from "../../../shared/hooks"
@@ -10,6 +11,7 @@ import { useViewerAtom } from "../../../entities/viewer/model"
 import { urls } from "../../../shared/config"
 import { REGISTER_STATE } from "../lib/constant"
 import { RegisterSchema } from "../model/validators"
+import { addViewer } from "../../../shared/api";
 
 export default function RegisterForm() {
     const toast = useToastView()
@@ -20,8 +22,25 @@ export default function RegisterForm() {
         onReset: () => { },
         onSubmit: (values) => {
             const { email, name, password } = values
-            setAuthData({ token: new Date().toISOString(), data: { id: Math.random(), email, name, password } })
-            toast({ status: "success", title: 'Account created.', description: JSON.stringify(values) })
+            const auth = getAuth();
+            createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+                addViewer({
+                    token:new Date().toISOString(),
+                    data:{
+                        // id: userCredential.user.providerId,
+                        name: name,
+                        email: email,
+                        password: password
+                }})
+                // setAuthData({ token: new Date().toISOString(), data: { id: Math.random(), email, name, password } })
+                toast({ status: "success", title: 'Account created.', description: JSON.stringify(values) })
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                console.log(errorMessage)
+            });
         }
     })
 

@@ -1,4 +1,3 @@
-import * as yup from "yup"
 import { Link as ReachLink } from "react-router-dom"
 import { useFormik } from "formik"
 import { ArrowLeftIcon } from "@chakra-ui/icons"
@@ -11,36 +10,22 @@ import { useViewerAtom } from "../../../entities/viewer/model"
 import { urls } from "../../../shared/config"
 import { REGISTER_STATE } from "../lib/constant"
 import { RegisterSchema } from "../model/validators"
-import { addViewer } from "../../../shared/api";
+import { addViewer, registerViwer } from "../../../shared/api";
+import useRegisterMutate from "../model/use-register-mutate";
 
 export default function RegisterForm() {
     const toast = useToastView()
     const { setAuthData } = useViewerAtom()
+    
+    const {mutate, isLoading} = useRegisterMutate()
+    
     const formik = useFormik({
         initialValues: REGISTER_STATE,
         validationSchema: RegisterSchema,
         onReset: () => { },
         onSubmit: (values) => {
             const { email, name, password } = values
-            const auth = getAuth();
-            createUserWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                addViewer({
-                    token:new Date().toISOString(),
-                    data:{
-                        // id: userCredential.user.providerId,
-                        name: name,
-                        email: email,
-                        password: password
-                }})
-                // setAuthData({ token: new Date().toISOString(), data: { id: Math.random(), email, name, password } })
-                toast({ status: "success", title: 'Account created.', description: JSON.stringify(values) })
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorMessage)
-            });
+            mutate({ email, name, password })
         }
     })
 
@@ -59,6 +44,7 @@ export default function RegisterForm() {
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isDisabled={isLoading}
                     />
                     <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
                 </FormControl>
@@ -73,6 +59,7 @@ export default function RegisterForm() {
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isDisabled={isLoading}
                     />
                     <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
                 </FormControl>
@@ -86,6 +73,7 @@ export default function RegisterForm() {
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isDisabled={isLoading}
                     />
                     <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
                 </FormControl>
@@ -99,6 +87,7 @@ export default function RegisterForm() {
                         value={formik.values.confirmPassword}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isDisabled={isLoading}
                     />
                     <FormErrorMessage>{formik.errors.confirmPassword}</FormErrorMessage>
                 </FormControl>
@@ -106,6 +95,7 @@ export default function RegisterForm() {
                     type='submit'
                     colorScheme='teal'
                     w="100%"
+                    isLoading={isLoading}
                 >
                     Submit
                 </Button>

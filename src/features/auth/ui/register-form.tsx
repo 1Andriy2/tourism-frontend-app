@@ -23,7 +23,7 @@ export default function RegisterForm() {
 
     return (
         <form onSubmit={formik.handleSubmit} onReset={formik.handleReset} style={{ width: "100%" }}>
-            <Button as={ReachLink} to={urls.home} leftIcon={<ArrowLeftIcon />} mb={5}>Return to home page</Button>
+            <Button as={ReachLink} to={urls.home} leftIcon={<ArrowLeftIcon />} mb={5} isLoading={isLoading} isDisabled={isLoading}>Return to home page</Button>
 
             <VStack spacing={5}>
                 <FormControl isInvalid={!!(formik.errors.email && formik.touched.email)}>

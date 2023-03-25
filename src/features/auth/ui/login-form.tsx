@@ -10,27 +10,17 @@ import { urls } from "../../../shared/config"
 import { LOG_IN_STATE } from "../lib/constant"
 import { LogInSchema } from "../model/validators"
 import { useViewerAtom } from "../../../entities/viewer/model";
+import useLogInMutate from "../model/use-login-mutate";
 
 export default function LogInForm() {
-    const toast = useToastView()
+    const { mutate, isLoading } = useLogInMutate()
+
     const formik = useFormik({
         initialValues: LOG_IN_STATE,
         validationSchema: LogInSchema,
         onReset: () => { },
-        onSubmit: (values) => {
-            const { email, password } = values
-            const auth = getAuth();
-            signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                toast({ status: "success", title: "Loginned.", description: JSON.stringify(values) })
-                // useViewerAtom().setAuthData({token:"",data:user)
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                console.log(errorMessage)
-            });
+        onSubmit: (values) => { 
+            mutate(values)
         }
     })
 

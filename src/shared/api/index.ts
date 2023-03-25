@@ -1,3 +1,4 @@
+import { createUserWithEmailAndPassword, getAuth, UserCredential } from "firebase/auth";
 import { collection, getDocs, addDoc } from "firebase/firestore";
 import { IAuthData, IUserData } from "../../entities/viewer/store";
 
@@ -12,4 +13,13 @@ export const getViewers = async () => {
 export const addViewer = async (data: IAuthData) => {
     const docs = (await addDoc(collection(firestore, "users"),data))
     return docs
+}
+
+export const registerViwer = async (data: IUserData): Promise<UserCredential | undefined> => {
+    try {
+        const auth = getAuth();
+        return await createUserWithEmailAndPassword(auth, data.email, data.password)
+    } catch (err) {
+        console.log((err as Error).message) 
+    }
 }

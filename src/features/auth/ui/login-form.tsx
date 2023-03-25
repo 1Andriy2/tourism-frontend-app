@@ -1,4 +1,3 @@
-import * as yup from "yup"
 import { Link as ReachLink } from "react-router-dom"
 import { useFormik } from "formik"
 import { ArrowLeftIcon } from "@chakra-ui/icons"

@@ -3,10 +3,12 @@ import { useMutation } from "react-query";
 import { registerViwer } from "../../../shared/api";
 import { useToastView } from "../../../shared/hooks";
 import { IUserData } from "../../../entities/viewer/store";
+import { useViewerAtom } from "../../../entities/viewer/model";
 
 export default function useRegisterMutate(oMutationOpts = {}) {
     const toast = useToastView()
-   
+    const { setAuthData } = useViewerAtom()
+
     return useMutation(
         async (oCredentials: IUserData) => await registerViwer(oCredentials),
         {
@@ -15,12 +17,13 @@ export default function useRegisterMutate(oMutationOpts = {}) {
                 toast({ title: "Starting register." })
             },
             onSuccess: (data) => {
-                console.log(data)
-                toast({ title: "Account created." })
+                if (data?.token) {
+                    setAuthData({ token: data.token, data: data.viewer })
+                    toast({ title: "Account created." })
+                }
             },
             onError: (err) => {
-                console.log(err);
-                toast({ title: (err as Error).message, description: (err as Error).stack })
+                toast({ title: (err as Error).message })
             }
         }
     )

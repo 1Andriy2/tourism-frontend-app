@@ -1,24 +1,16 @@
 import { Link as ReachLink } from "react-router-dom"
 import { useFormik } from "formik"
 import { ArrowLeftIcon } from "@chakra-ui/icons"
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { FormControl, FormLabel, Input, Button, FormErrorMessage, VStack } from "@chakra-ui/react"
-
-import { useToastView } from "../../../shared/hooks"
-import { useViewerAtom } from "../../../entities/viewer/model"
 
 import { urls } from "../../../shared/config"
 import { REGISTER_STATE } from "../lib/constant"
 import { RegisterSchema } from "../model/validators"
-import { addViewer, registerViwer } from "../../../shared/api";
 import useRegisterMutate from "../model/use-register-mutate";
 
 export default function RegisterForm() {
-    const toast = useToastView()
-    const { setAuthData } = useViewerAtom()
-    
-    const {mutate, isLoading} = useRegisterMutate()
-    
+    const { mutate, isLoading } = useRegisterMutate()
+
     const formik = useFormik({
         initialValues: REGISTER_STATE,
         validationSchema: RegisterSchema,
@@ -96,6 +88,7 @@ export default function RegisterForm() {
                     colorScheme='teal'
                     w="100%"
                     isLoading={isLoading}
+                    isDisabled={isLoading}
                 >
                     Submit
                 </Button>

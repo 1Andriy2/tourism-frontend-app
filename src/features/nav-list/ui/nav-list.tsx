@@ -6,9 +6,11 @@ import { AtSignIcon, SunIcon, MoonIcon, HamburgerIcon } from '@chakra-ui/icons'
 import { UseModel } from "..";
 import { useViewerAtom } from "../../../entities/viewer/model";
 import { urls } from "../../../shared/config";
+import useLogOutMutate from "../../auth/model/use-logout-mutate";
 
 export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
-    const { isAuthenticated, removeAuthData } = useViewerAtom()
+    const { isAuthenticated } = useViewerAtom()
+    const { mutate } = useLogOutMutate()
 
     const [isLargerThan800] = useMediaQuery("(max-width:950px)")
     const { isLight, toggleColorMode } = UseModel.useThemeMode()
@@ -27,7 +29,7 @@ export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
             <HStack spacing={isLargerThan800 ? 2 : 5}>
                 {isAuthenticated ? (
                     <Fragment>
-                        <Button variant="ghost" colorScheme="whatsapp" onClick={removeAuthData}>
+                        <Button variant="ghost" colorScheme="whatsapp" onClick={() => mutate()}>
                             LogOut
                         </Button>
                     </Fragment>

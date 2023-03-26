@@ -12,7 +12,7 @@ export default function useFetchViewer(oQueriesOpts = {}) {
         ...oQueriesOpts,
         queryKey: ["GetViewer"],
         queryFn: () => getViewer(),
-        onSuccess: () => toast({ title: "Getted user" }),
+        onSuccess: () => { },
         onError: (err) => {
             removeAuthData()
             toast({ title: (err as Error).message })

@@ -1,6 +1,5 @@
-import { async } from "@firebase/util"
 import { getAuth, createUserWithEmailAndPassword, UserCredential, User, signInWithEmailAndPassword, signOut } from "firebase/auth"
-import { collection, getDocs, addDoc, DocumentReference, DocumentData, getDoc, query, doc } from "firebase/firestore"
+import { collection, getDocs, addDoc, getDoc, doc } from "firebase/firestore"
 import { IAuthData, IUserData } from "../../entities/viewer/store"
 
 import { firestore } from '../../processes/firebase'
@@ -16,6 +15,10 @@ export const getViewers = async () => {
 export const addViewer = async (data: IUserData) => {
     const docs = (await addDoc(collection(firestore, "users"), data))
     return docs
+}
+
+export const getViewer = () => {
+    return auth.currentUser
 }
 
 export const getViewerByEmail = async (email: string) => {

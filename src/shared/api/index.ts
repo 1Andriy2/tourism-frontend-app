@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword, UserCredential, User, signInWithEmailAndPassword, signOut } from "firebase/auth"
+import { getAuth, createUserWithEmailAndPassword, UserCredential, User, signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult } from "firebase/auth"
 import { collection, getDocs, addDoc, getDoc, doc } from "firebase/firestore"
 import { IAuthData, IUserData } from "../../entities/viewer/store"
 
@@ -17,13 +17,18 @@ export const addViewer = async (data: IUserData) => {
     return docs
 }
 
-export const getViewer = () => {
-    return auth.currentUser
+export const getViewer = async (): Promise<{ token: IdTokenResult, viewer: any }> => {
+    const { currentUser } = auth
+    if (!currentUser || currentUser.email === null) throw new Error("Undefined user")
+    const token = await getIdTokenResult(currentUser)
+    const viewer = await getViewerByEmail(currentUser.email)
+    return { token, viewer }
 }
 
 export const getViewerByEmail = async (email: string) => {
-    const docs = (await getDoc(doc(firestore, "users", email)))
-    return docs.data()
+    const viewers = await getViewers()
+    const response = viewers.find(viewer => viewer.email === email)
+    return response
 }
 
 export const registerViwer = async (data: IUserData): Promise<{ viewer: IUserData, token: string | undefined } | undefined> => {

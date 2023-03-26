@@ -7,6 +7,7 @@ import { urls } from "../../shared/config"
 
 const HomePage = lazy(() => import("../../pages/home"))
 const AboutPage = lazy(() => import("../../pages/about"))
+const AccountPage = lazy(() => import("../../pages/account"))
 const LogInPage = lazy(() => import("../../pages/login"))
 const RegisterPage = lazy(() => import("../../pages/register"))
 
@@ -22,6 +23,15 @@ const router = createBrowserRouter([
             {
                 path: urls.about,
                 element: <AboutPage />,
+            },
+        ]
+    },
+    {
+        element: <Layout.AccountLayout />,
+        children: [
+            {
+                path: "account/profile",
+                element: <AccountPage />,
             },
         ]
     },

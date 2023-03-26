@@ -4,6 +4,8 @@ import {
     DrawerContent, DrawerFooter, DrawerOverlay, DrawerCloseButton, Stack, Button, Center, Heading, Divider
 } from "@chakra-ui/react"
 
+import AccountAside from "./account-aside"
+
 import { urls } from "../../shared/config"
 
 export default function Aside({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) {
@@ -36,3 +38,5 @@ export default function Aside({ isOpen, onClose }: { isOpen: boolean, onClose: (
         </Drawer >
     )
 }
+
+Aside.AccoutAside = AccountAside

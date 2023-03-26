@@ -6,13 +6,17 @@ import { useViewerAtom } from "../../../entities/viewer/model";
 
 export default function useFetchViewer(oQueriesOpts = {}) {
     const toast = useToastView()
-    const { isAuthenticated, removeAuthData } = useViewerAtom()
+    const { isAuthenticated, setAuthData, removeAuthData } = useViewerAtom()
 
     return useQuery({
         ...oQueriesOpts,
         queryKey: ["GetViewer"],
-        queryFn: () => getViewer(),
-        onSuccess: () => { },
+        queryFn: async () => await getViewer(),
+        onSuccess: (data) => {
+            if (data?.viewer) {
+                setAuthData({ token: data.token.token, data: data.viewer })
+            }
+        },
         onError: (err) => {
             removeAuthData()
             toast({ title: (err as Error).message })

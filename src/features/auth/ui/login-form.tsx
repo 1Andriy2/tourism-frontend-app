@@ -19,7 +19,7 @@ export default function LogInForm() {
         initialValues: LOG_IN_STATE,
         validationSchema: LogInSchema,
         onReset: () => { },
-        onSubmit: (values) => { 
+        onSubmit: (values) => {
             mutate(values)
         }
     })

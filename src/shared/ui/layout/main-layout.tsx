@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom"
-import { useDisclosure } from "@chakra-ui/react"
+import { Box, useDisclosure } from "@chakra-ui/react"
 
 import { Layout } from "../"
 
@@ -11,7 +11,9 @@ export default function MainLayout() {
             <Layout.Header onOpenAside={onOpen} />
             <Layout.Aside isOpen={isOpen} onClose={onClose} />
             <Layout.Content>
-                <Outlet />
+                <Box overflowY="auto" height="calc(100vh - 123px)">
+                    <Outlet />
+                </Box>
             </Layout.Content>
         </Layout>
     )

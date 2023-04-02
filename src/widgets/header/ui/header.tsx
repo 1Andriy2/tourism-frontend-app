@@ -8,7 +8,7 @@ export default function Header(props: { onOpenAside: () => void }) {
   const [isLargerThan800] = useMediaQuery("(max-width:950px)")
 
   return (
-    <Box position="fixed" insetX="0" top="0" p={isLargerThan800 ? "5" : "10"}>
+    <Box position="fixed" insetX="0" top="0" zIndex="43" p={isLargerThan800 ? "5" : "10"}>
       <Container>
         <Header.Content>
           <NavList {...props} />

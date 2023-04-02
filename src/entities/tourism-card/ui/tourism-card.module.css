@@ -1,0 +1,11 @@
+.image_preview {
+  position: relative;
+  z-index: 1;
+  transform: scale(1);
+  filter: brightness(60%);
+  transition: transform 500ms, filter 150ms;
+}
+.image_preview:hover {
+  transform: scale(2);
+  filter: brightness(80%);
+}

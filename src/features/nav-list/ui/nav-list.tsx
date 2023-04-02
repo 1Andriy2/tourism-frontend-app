@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import { Link as ReachLink } from "react-router-dom"
+import { Link as ReachLink, useMatch, useLocation } from "react-router-dom"
 import { HStack, Icon, Button, useMediaQuery } from "@chakra-ui/react"
 import { AtSignIcon, SunIcon, MoonIcon, HamburgerIcon } from '@chakra-ui/icons'
 
@@ -8,7 +8,27 @@ import { useViewerAtom } from "../../../entities/viewer/model";
 import { urls } from "../../../shared/config";
 import useLogOutMutate from "../../auth/model/use-logout-mutate";
 
+const navLinks = [
+    {
+        path: urls.home,
+        label: "Home",
+    },
+    {
+        path: urls.tourism,
+        label: "Tourism",
+    },
+    {
+        path: urls.about,
+        label: "About",
+    },
+    {
+        path: "urls.about",
+        label: "Contacts",
+    },
+]
+
 export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
+    const pathname = useLocation().pathname
     const { isAuthenticated } = useViewerAtom()
     const { mutate } = useLogOutMutate()
 
@@ -20,10 +40,9 @@ export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
             <HStack spacing={50}>
                 <Icon as={AtSignIcon} height={43} width={43} color="whatsapp.400" />
                 <HStack spacing={5} display={isLargerThan800 ? "none" : "flex"}>
-                    <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.home}>Home</Button>
-                    <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.about}>Tourism</Button>
-                    <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.about}>About</Button>
-                    <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.about}>Contacts</Button>
+                    {navLinks.map(({ path, label }) => (
+                        <Button key={path} as={ReachLink} variant={path === pathname ? "solid" : "outline"} colorScheme="whatsapp" to={path}>{label}</Button>
+                    ))}
                 </HStack>
             </HStack>
             <HStack spacing={isLargerThan800 ? 2 : 5}>

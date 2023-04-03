@@ -1,6 +1,4 @@
 .image_preview {
-  position: relative;
-  z-index: 1;
   transform: scale(1);
   filter: brightness(60%);
   transition: transform 500ms, filter 150ms;

@@ -9,6 +9,7 @@ const auth = getAuth();
 export const getViewers = async () => {
     const docs = (await getDocs(collection(firestore, "users"))).docs
     const users = docs.map(doc => doc.data())
+    console.log(users)
     return users
 }
 
@@ -47,4 +48,18 @@ export const logInViwer = async (data: Omit<IUserData, "name">): Promise<{ viewe
 
 export const signOutViewer = async () => {
     return await signOut(auth)
+}
+
+export const getCoutries = async () => {
+    const docs = (await getDocs(collection(firestore, "countries"))).docs
+    const countries = docs.map(doc => doc.data())
+    console.log(countries) 
+    return countries
+}
+
+export const getTouristPlaces = async () => {
+    const docs = (await getDocs(collection(firestore, "tourist-places"))).docs
+    const touristPlaces = docs.map(doc => doc.data())
+    console.log(touristPlaces) 
+    return touristPlaces
 }

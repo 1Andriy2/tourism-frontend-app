@@ -1,11 +1,13 @@
 import { Fragment } from "react"
-import { Box, Divider, SimpleGrid } from "@chakra-ui/react"
+import { useQuery } from "react-query";
+import { Box, Divider, SimpleGrid, Spinner } from "@chakra-ui/react"
 
 import pr1 from "../../shared/images/place1.jpg"
 import pr2 from "../../shared/images/place2.jpg"
 
 import { TourismCard } from "../../entities"
 import { TourismCategory } from "../../features"
+import { getTouristPlaces } from "../../shared/api";
 
 const dataPlaces = [
     {
@@ -35,13 +37,15 @@ const dataPlaces = [
 ]
 
 export default function TourismPage() {
+    const {data, isLoading} = useQuery('tourism-places',getTouristPlaces)
     return (
         <Box px={8}>
             <TourismCategory />
             <Divider my={5} height={5} />
             <SimpleGrid columns={[1, 2, 3]} spacing={8}>
-                {dataPlaces.map(place => (
-                    <TourismCard key={place.id} {...place} />
+                {isLoading && <Spinner/>}
+                {!isLoading && data && data.map(place => (
+                    <TourismCard key={place.title} {...place} />
                 ))}
             </SimpleGrid>
         </Box>

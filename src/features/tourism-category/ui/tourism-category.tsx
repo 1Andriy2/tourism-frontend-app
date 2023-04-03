@@ -1,11 +1,14 @@
+import { Fragment } from "react";
+import { useQuery } from "react-query";
 import {
     Flex, HStack, Button, Menu, MenuButton, MenuList, MenuItem,
-    MenuOptionGroup, MenuItemOption, Input, InputGroup, InputRightElement, Heading, Tag, ScaleFade
+    MenuOptionGroup, MenuItemOption, Input, InputGroup, InputRightElement, Heading, Tag, ScaleFade, Spinner, Center
 } from "@chakra-ui/react";
+
 import { SearchIcon, ChevronDownIcon } from "@chakra-ui/icons"
 
+import { getCoutries } from "../../../shared/api";
 import useFilters, { FilterActionKind } from "../model/use-filters";
-import { Fragment } from "react";
 
 const exampleCitiesData = [
     {
@@ -27,6 +30,7 @@ const exampleCitiesData = [
 ]
 
 export default function TourismCategory() {
+    const {data, isLoading} = useQuery({queryFn:async () => await getCoutries()})
     const [state, dispatch] = useFilters()
 
     return (
@@ -42,9 +46,10 @@ export default function TourismCategory() {
                             <MenuItemOption value='desc' onClick={() => dispatch({ type: FilterActionKind.SetSort, payload: "desc" })}>Descending</MenuItemOption>
                         </MenuOptionGroup>
                         <MenuOptionGroup title='Cities' type='checkbox'>
-                            {exampleCitiesData.map(({ id, name }) => (
+                            {isLoading && <Center><Spinner/></Center>}
+                            {!isLoading && data && data.map(({ name }) => (
                                 <MenuItemOption
-                                    key={id}
+                                    key={name}
                                     value={name}
                                     onClick={() => dispatch({ type: FilterActionKind.AddCity, payload: name })}>
                                     {name}

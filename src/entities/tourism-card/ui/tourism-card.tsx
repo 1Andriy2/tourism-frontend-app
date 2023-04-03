@@ -7,8 +7,13 @@ import styles from "./tourism-card.module.css"
 
 import { StarIcon, InfoIcon } from "@chakra-ui/icons"
 
-export default function TourismCard({ id, preview, title, description }
-    : { id: number, preview: string, title: string, description: string }) {
+export interface IToursimPlacesCollection {
+    title: string
+    preview: string
+    description: string
+}
+
+export default function TourismCard({ preview, title, description }: IToursimPlacesCollection) {
     return (
         <Card position="relative" variant="filled">
             <CardHeader>

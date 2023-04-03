@@ -5,14 +5,14 @@ export enum FilterActionKind {
     AddCity = 'AddCity',
 }
 
-interface IFIlterData {
+export interface IFIlterData {
     sort: string,
-    cities: string[]
+    cities: { id: string, name: string }[]
 }
 
-interface IFIlterAction {
+export interface IFIlterAction {
     type: FilterActionKind
-    payload: string
+    payload: any
 }
 
 const initFilterData: IFIlterData = {
@@ -26,8 +26,8 @@ const reducer: (state: IFIlterData, action: IFIlterAction) => IFIlterData = (sta
         case FilterActionKind.SetSort:
             return { ...state, sort: payload }
         case FilterActionKind.AddCity:
-            if (state.cities.includes(payload)) {
-                const cities = state.cities.filter(c => c !== payload)
+            if (state.cities.find(c => c.id === payload.id)) {
+                const cities = state.cities.filter(c => c.id !== payload.id)
                 return { ...state, cities }
             } else {
                 return { ...state, cities: [payload, ...state.cities] }

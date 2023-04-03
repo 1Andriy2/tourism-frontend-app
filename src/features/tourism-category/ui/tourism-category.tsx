@@ -1,37 +1,23 @@
-import { Fragment } from "react";
-import { useQuery } from "react-query";
+import { Fragment } from "react"
+import { useQuery } from "react-query"
 import {
     Flex, HStack, Button, Menu, MenuButton, MenuList, MenuItem,
     MenuOptionGroup, MenuItemOption, Input, InputGroup, InputRightElement, Heading, Tag, ScaleFade, Spinner, Center
-} from "@chakra-ui/react";
+} from "@chakra-ui/react"
 
 import { SearchIcon, ChevronDownIcon } from "@chakra-ui/icons"
 
 import { getCoutries } from "../../../shared/api";
-import useFilters, { FilterActionKind } from "../model/use-filters";
+import { IFIlterData, IFIlterAction, FilterActionKind } from "../model/use-filters"
 
-const exampleCitiesData = [
-    {
-        id: 1,
-        name: "Lviv"
-    },
-    {
-        id: 2,
-        name: "Kyiv"
-    },
-    {
-        id: 3,
-        name: "Madrid"
-    },
-    {
-        id: 4,
-        name: "Barcelona"
-    }
-]
+export interface ICoutries {
+    id: string
+    name: string
+    place?: any
+}
 
-export default function TourismCategory() {
-    const {data, isLoading} = useQuery({queryFn:async () => await getCoutries()})
-    const [state, dispatch] = useFilters()
+export default function TourismCategory({ filterData, changer }: { filterData: IFIlterData, changer: React.Dispatch<IFIlterAction> }) {
+    const { data, isLoading } = useQuery<ICoutries[]>({ queryFn: async () => await getCoutries() })
 
     return (
         <Fragment>
@@ -41,17 +27,17 @@ export default function TourismCategory() {
                         Open filters
                     </MenuButton>
                     <MenuList>
-                        <MenuOptionGroup defaultValue={state.sort} title='Type Sort' type='radio'>
-                            <MenuItemOption value='asc' onClick={() => dispatch({ type: FilterActionKind.SetSort, payload: "asc" })}>Ascending</MenuItemOption>
-                            <MenuItemOption value='desc' onClick={() => dispatch({ type: FilterActionKind.SetSort, payload: "desc" })}>Descending</MenuItemOption>
+                        <MenuOptionGroup defaultValue={filterData.sort} title='Type Sort' type='radio'>
+                            <MenuItemOption value='asc' onClick={() => changer({ type: FilterActionKind.SetSort, payload: "asc" })}>Ascending</MenuItemOption>
+                            <MenuItemOption value='desc' onClick={() => changer({ type: FilterActionKind.SetSort, payload: "desc" })}>Descending</MenuItemOption>
                         </MenuOptionGroup>
                         <MenuOptionGroup title='Cities' type='checkbox'>
-                            {isLoading && <Center><Spinner/></Center>}
-                            {!isLoading && data && data.map(({ name }) => (
+                            {isLoading && <Center><Spinner /></Center>}
+                            {!isLoading && data && data.map(({ id, name }) => (
                                 <MenuItemOption
-                                    key={name}
+                                    key={id}
                                     value={name}
-                                    onClick={() => dispatch({ type: FilterActionKind.AddCity, payload: name })}>
+                                    onClick={() => changer({ type: FilterActionKind.AddCity, payload: { id, name } })}>
                                     {name}
                                 </MenuItemOption>
                             ))}
@@ -67,13 +53,13 @@ export default function TourismCategory() {
                 </InputGroup>
             </Flex>
 
-            <ScaleFade in={state.cities.length !== 0}>
+            <ScaleFade in={filterData.cities.length !== 0}>
                 <HStack my={2}>
                     <Heading size="md" >
                         Choosen categories:
                     </Heading>
-                    {state.cities.map(name => (
-                        <Tag colorScheme="whatsapp" key={name} size="lg">
+                    {filterData.cities.map(({ id, name }) => (
+                        <Tag colorScheme="whatsapp" key={id} size="lg">
                             {name}
                         </Tag>
                     ))}

@@ -1,6 +1,12 @@
-import { getAuth, createUserWithEmailAndPassword, UserCredential, User, signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult } from "firebase/auth"
-import { collection, getDocs, addDoc, getDoc, doc } from "firebase/firestore"
-import { IAuthData, IUserData } from "../../entities/viewer/store"
+import {
+    getAuth, createUserWithEmailAndPassword, UserCredential, User,
+    signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult
+} from "firebase/auth"
+import { collection, getDocs, addDoc, QueryDocumentSnapshot, QuerySnapshot, query, where } from "firebase/firestore"
+import { IToursimPlacesCollection } from "../../entities/tourism-card/ui/tourism-card";
+import { IUserData } from "../../entities/viewer/store"
+import { IFIlterData } from "../../features/tourism-category/model/use-filters";
+import { ICoutries } from "../../features/tourism-category/ui/tourism-category";
 
 import { firestore } from '../../processes/firebase'
 
@@ -52,14 +58,22 @@ export const signOutViewer = async () => {
 
 export const getCoutries = async () => {
     const docs = (await getDocs(collection(firestore, "countries"))).docs
-    const countries = docs.map(doc => doc.data())
-    console.log(countries) 
-    return countries
+    const countries = docs.map(doc => ({ id: doc.id, ...doc.data() }))
+    return countries as ICoutries[]
 }
 
-export const getTouristPlaces = async () => {
-    const docs = (await getDocs(collection(firestore, "tourist-places"))).docs
-    const touristPlaces = docs.map(doc => doc.data())
-    console.log(touristPlaces) 
-    return touristPlaces
+export const getTouristPlaces = async (filter: IFIlterData) => {
+    const countriesDataIds: string[] = filter.cities.map(c => c.id)
+    const coll = collection(firestore, "tourist-places")
+    if (countriesDataIds.length === 0) {
+        const docs = (await getDocs(coll)).docs
+        const touristPlaces = docs.map(doc => doc.data())
+        return touristPlaces as IToursimPlacesCollection[]
+    } else {
+        const q = query(coll, where("country-id", "in", countriesDataIds))
+        const docs = (await getDocs(q)).docs
+        console.log("🚀 ~ file: index.ts:75 ~ getTouristPlaces ~ docs:", docs)
+        const touristPlaces = docs.map(doc => doc.data())
+        return touristPlaces as IToursimPlacesCollection[]
+    }
 }

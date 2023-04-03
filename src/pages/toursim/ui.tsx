@@ -8,6 +8,7 @@ import pr2 from "../../shared/images/place2.jpg"
 import { TourismCard } from "../../entities"
 import { TourismCategory } from "../../features"
 import { getTouristPlaces } from "../../shared/api";
+import useFilters from "../../features/tourism-category/model/use-filters";
 
 const dataPlaces = [
     {
@@ -37,13 +38,15 @@ const dataPlaces = [
 ]
 
 export default function TourismPage() {
-    const {data, isLoading} = useQuery('tourism-places',getTouristPlaces)
+    const [state, dispatch] = useFilters()
+    const { data, isLoading } = useQuery(['tourism-places', state], async () => getTouristPlaces(state))
+
     return (
         <Box px={8}>
-            <TourismCategory />
+            <TourismCategory filterData={state} changer={dispatch} />
             <Divider my={5} height={5} />
             <SimpleGrid columns={[1, 2, 3]} spacing={8}>
-                {isLoading && <Spinner/>}
+                {isLoading && <Spinner />}
                 {!isLoading && data && data.map(place => (
                     <TourismCard key={place.title} {...place} />
                 ))}

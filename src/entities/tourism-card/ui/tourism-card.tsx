@@ -1,6 +1,6 @@
 import {
     Box, Card, CardHeader, CardBody, CardFooter, Heading, Center, Image,
-    Divider, Accordion, AccordionItem, AccordionPanel, AccordionButton, HStack, IconButton
+    Divider, Accordion, AccordionItem, AccordionPanel, AccordionButton, HStack, IconButton, Tag, TagLabel, Tooltip
 } from "@chakra-ui/react"
 
 import styles from "./tourism-card.module.css"
@@ -10,7 +10,7 @@ import { StarIcon, InfoIcon } from "@chakra-ui/icons"
 export default function TourismCard({ id, preview, title, description }
     : { id: number, preview: string, title: string, description: string }) {
     return (
-        <Card>
+        <Card position="relative" variant="filled">
             <CardHeader>
                 <Center>
                     <Heading size="lg">
@@ -34,11 +34,21 @@ export default function TourismCard({ id, preview, title, description }
                             </AccordionPanel>
                         </AccordionItem>
                     </Accordion>
+
+                    <Box position="absolute" top="8px" right="8px">
+                        <Tag colorScheme="red">
+                            <TagLabel>Lviv</TagLabel>
+                        </Tag>
+                    </Box>
                 </Box>
             </CardBody>
             <CardFooter justifyContent="space-evenly">
-                <IconButton icon={<StarIcon />} aria-label={"FollowMe"} />
-                <IconButton icon={<InfoIcon />} aria-label={"FollowMe"} />
+                <Tooltip label="Mark">
+                    <IconButton colorScheme="red" variant="outline" icon={<StarIcon />} aria-label={"FollowMe"} />
+                </Tooltip>
+                <Tooltip label="Info">
+                    <IconButton colorScheme="red" variant="outline" icon={<InfoIcon />} aria-label={"FollowMe"} />
+                </Tooltip>
             </CardFooter>
         </Card>
     )

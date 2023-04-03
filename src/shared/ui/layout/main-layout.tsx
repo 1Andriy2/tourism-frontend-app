@@ -11,7 +11,7 @@ export default function MainLayout() {
             <Layout.Header onOpenAside={onOpen} />
             <Layout.Aside isOpen={isOpen} onClose={onClose} />
             <Layout.Content>
-                <Box overflowY="auto" height="calc(100vh - 123px)">
+                <Box overflowY="auto" height="calc(100vh - 63px)" pt={10}>
                     <Outlet />
                 </Box>
             </Layout.Content>

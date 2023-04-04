@@ -1,12 +1,14 @@
 import { useReducer } from "react"
 
 export enum FilterActionKind {
+    SetSearch = 'SetSearch',
     SetSort = 'SetSort',
     AddCity = 'AddCity',
 }
 
 export interface IFIlterData {
-    sort: string,
+    search: string
+    sort: string
     cities: { id: string, name: string }[]
 }
 
@@ -16,6 +18,7 @@ export interface IFIlterAction {
 }
 
 const initFilterData: IFIlterData = {
+    search: "",
     sort: "asc",
     cities: []
 }
@@ -23,6 +26,8 @@ const initFilterData: IFIlterData = {
 const reducer: (state: IFIlterData, action: IFIlterAction) => IFIlterData = (state: IFIlterData, action: IFIlterAction) => {
     const { type, payload } = action;
     switch (type) {
+        case FilterActionKind.SetSearch:
+            return { ...state, search: payload }
         case FilterActionKind.SetSort:
             return { ...state, sort: payload }
         case FilterActionKind.AddCity:

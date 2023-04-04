@@ -48,6 +48,8 @@ export default function TourismCategory({ filterData, changer }: { filterData: I
                 <InputGroup maxW={250}>
                     <InputRightElement children={<SearchIcon />} />
                     <Input
+                        value={filterData.search}
+                        onChange={(e) => changer({ type: FilterActionKind.SetSearch, payload: e.target.value })}
                         placeholder="Search your favorite place"
                     />
                 </InputGroup>

@@ -2,7 +2,7 @@ import {
     getAuth, createUserWithEmailAndPassword, UserCredential, User,
     signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult
 } from "firebase/auth"
-import { collection, getDocs, addDoc, QueryDocumentSnapshot, QuerySnapshot, query, where } from "firebase/firestore"
+import { collection, getDocs, addDoc, query, where, orderBy, } from "firebase/firestore"
 import { IToursimPlacesCollection } from "../../entities/tourism-card/ui/tourism-card";
 import { IUserData } from "../../entities/viewer/store"
 import { IFIlterData } from "../../features/tourism-category/model/use-filters";
@@ -66,7 +66,8 @@ export const getTouristPlaces = async (filter: IFIlterData) => {
     const countriesDataIds: string[] = filter.cities.map(c => c.id)
     const coll = collection(firestore, "tourist-places")
     if (countriesDataIds.length === 0) {
-        const docs = (await getDocs(coll)).docs
+        const q = query(coll, where("title", ">=", filter.search), orderBy("title"))
+        const docs = (await getDocs(q)).docs
         const touristPlaces = docs.map(doc => doc.data())
         return touristPlaces as IToursimPlacesCollection[]
     } else {

@@ -1,10 +1,10 @@
 import { Fragment, ReactNode } from 'react'
 
 import withProviders from './providers'
-import useFetchViewer from '../features/auth/model/use-fetch-viewer'
+import useFetchViewerQuery from '../features/auth/model/use-fetch-viewer-query'
 
 function App({ children }: { children: ReactNode }) {
-  useFetchViewer()
+  useFetchViewerQuery()
 
   return (
     <Fragment>

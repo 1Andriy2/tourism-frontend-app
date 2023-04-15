@@ -4,7 +4,7 @@ import { getViewer } from "../../../shared/api";
 import { useToastView } from "../../../shared/hooks";
 import { useViewerAtom } from "../../../entities/viewer/model";
 
-export default function useFetchViewer(oQueriesOpts = {}) {
+export default function useFetchViewerQuery(oQueriesOpts = {}) {
     const toast = useToastView()
     const { isAuthenticated, setAuthData, removeAuthData } = useViewerAtom()
 

@@ -1,13 +1,14 @@
 import {
     getAuth, createUserWithEmailAndPassword, UserCredential, User,
-    signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult
+    signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult, sendPasswordResetEmail, updateEmail, updatePassword
 } from "firebase/auth"
-import { collection, getDocs, addDoc, query, where, orderBy, } from "firebase/firestore"
+import { doc, collection, getDocs, addDoc, getDoc, query, where, orderBy, updateDoc, DocumentReference } from "firebase/firestore"
 import { IToursimPlacesCollection } from "../../entities/tourism-card/ui/tourism-card";
 import { IUserData } from "../../entities/viewer/store"
 import { IFIlterData } from "../../features/tourism-category/model/use-filters";
 import { ICoutries } from "../../features/tourism-category/ui/tourism-category";
 
+import { generateCode } from "./utils";
 import { firestore } from '../../processes/firebase'
 
 const auth = getAuth();
@@ -15,7 +16,6 @@ const auth = getAuth();
 export const getViewers = async () => {
     const docs = (await getDocs(collection(firestore, "users"))).docs
     const users = docs.map(doc => doc.data())
-    console.log(users)
     return users
 }
 
@@ -30,6 +30,38 @@ export const getViewer = async (): Promise<{ token: IdTokenResult, viewer: any }
     const token = await getIdTokenResult(currentUser)
     const viewer = await getViewerByEmail(currentUser.email)
     return { token, viewer }
+}
+
+export const editAccount = async (data: IUserData) => {
+    const { email, password, ...rest } = data
+    if (auth.currentUser && email) {
+        await updateEmail(auth.currentUser, email)
+    } else if (auth.currentUser && password) {
+        await updatePassword(auth.currentUser, password)
+    }
+    const q = query(collection(firestore, "users"), where("email", "==", email))
+    const querySnapshot = await getDocs(q);
+    let docID = ''
+    querySnapshot.forEach((doc) => {
+        docID = doc.id
+    })
+    const user = doc(firestore, "users", docID)
+    await updateDoc(user, { ...data })
+    return (await getViewer()).viewer
+}
+
+export const checkCodeManageAccount = async (email: string | undefined, code: number) => {
+    const q = collection(firestore, "user-keys")
+    const userKeys = (await getDocs(q)).docs.map(doc => doc.data())
+    const findCode = userKeys.find(uk => uk["user-email"] === email && uk.code === code)
+    return findCode || null
+}
+
+export const sendCodeManageAccount = async (email: any) => {
+    const code = Number(generateCode(4));
+    (await addDoc(collection(firestore, "user-keys"), { code, date: Date.now().toLocaleString(), "user-email": email }))
+    const data = await sendPasswordResetEmail(auth, email, { url: `http://localhost:5173/?code=${code}` })
+    return data
 }
 
 export const getViewerByEmail = async (email: string) => {

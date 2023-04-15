@@ -3,16 +3,19 @@ import { FormErrorMessage, FormControl, FormLabel, Input, Button, HStack, Flex, 
 
 import { ProfileSchema } from "../model/validators"
 import { useViewerAtom } from "../../../entities/viewer/model"
+import useRefreshAccountMutate from "../model/use-refresh-account-mutate"
 
-export default function ProfileForm({ openModal }: { openModal: () => void }) {
+export default function ProfileForm({ openModal, onClose }: { openModal: () => void, onClose: () => void }) {
     const { authData } = useViewerAtom()
+    const { mutate, isLoading } = useRefreshAccountMutate({ onSuccess: () => onClose() })
 
     const formik = useFormik({
         initialValues: { ...authData.data, password: "", confirmPassword: "", },
         validationSchema: ProfileSchema,
         onReset: () => { },
         onSubmit: (values) => {
-            alert(JSON.stringify(values))
+            const { name, email, password }: any = values
+            mutate({ name, email, password })
         }
     })
 
@@ -28,6 +31,8 @@ export default function ProfileForm({ openModal }: { openModal: () => void }) {
                         value={formik.values.email}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isDisabled={isLoading}
+                        autoComplete="off"
                     />
                     <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
                 </FormControl>
@@ -41,6 +46,8 @@ export default function ProfileForm({ openModal }: { openModal: () => void }) {
                         value={formik.values.name}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isDisabled={isLoading}
+                        autoComplete="off"
                     />
                     <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
                 </FormControl>
@@ -58,6 +65,8 @@ export default function ProfileForm({ openModal }: { openModal: () => void }) {
                         value={formik.values.password}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isDisabled={isLoading}
+                        autoComplete="off"
                     />
                     <FormErrorMessage>{formik.errors.password}</FormErrorMessage>
                 </FormControl>
@@ -71,6 +80,8 @@ export default function ProfileForm({ openModal }: { openModal: () => void }) {
                         value={formik.values.confirmPassword}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
+                        isDisabled={isLoading}
+                        autoComplete="off"
                     />
                     <FormErrorMessage>{formik.errors.confirmPassword}</FormErrorMessage>
                 </FormControl>
@@ -79,7 +90,7 @@ export default function ProfileForm({ openModal }: { openModal: () => void }) {
             <Divider my={8} />
 
             <Flex justifyContent={"right"}>
-                <Button type="button" onClick={openModal}>
+                <Button type="button" onClick={openModal} isLoading={isLoading} isDisabled={isLoading}>
                     Refresh Account
                 </Button>
             </Flex>

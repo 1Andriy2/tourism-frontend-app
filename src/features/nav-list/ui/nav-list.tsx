@@ -1,12 +1,12 @@
 import { Fragment } from "react";
-import { Link as ReachLink, useMatch, useLocation } from "react-router-dom"
-import { HStack, Icon, Button, useMediaQuery } from "@chakra-ui/react"
+import { Link as ReachLink, useLocation } from "react-router-dom"
+import { Avatar, HStack, Icon, Button, useMediaQuery } from "@chakra-ui/react"
 import { AtSignIcon, SunIcon, MoonIcon, HamburgerIcon } from '@chakra-ui/icons'
 
 import { UseModel } from "..";
-import { useViewerAtom } from "../../../entities/viewer/model";
+import UserPoppup from "./user-poppup";
 import { urls } from "../../../shared/config";
-import useLogOutMutate from "../../auth/model/use-logout-mutate";
+import { useViewerAtom } from "../../../entities/viewer/model";
 
 const navLinks = [
     {
@@ -29,8 +29,7 @@ const navLinks = [
 
 export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
     const pathname = useLocation().pathname
-    const { isAuthenticated } = useViewerAtom()
-    const { mutate } = useLogOutMutate()
+    const { isAuthenticated, authData } = useViewerAtom()
 
     const [isLargerThan800] = useMediaQuery("(max-width:950px)")
     const { isLight, toggleColorMode } = UseModel.useThemeMode()
@@ -47,11 +46,9 @@ export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
             </HStack>
             <HStack spacing={isLargerThan800 ? 2 : 5}>
                 {isAuthenticated ? (
-                    <Fragment>
-                        <Button variant="ghost" colorScheme="whatsapp" onClick={() => mutate()}>
-                            LogOut
-                        </Button>
-                    </Fragment>
+                    <UserPoppup>
+                        <Avatar w={10} h={10} name={authData.data?.name} cursor="pointer" />
+                    </UserPoppup>
                 ) : (
                     <Fragment>
                         <Button as={ReachLink} variant="ghost" colorScheme="whatsapp" to={urls.logIn}>

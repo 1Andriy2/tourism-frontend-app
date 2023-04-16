@@ -2,7 +2,7 @@ import {
     getAuth, createUserWithEmailAndPassword, UserCredential, User,
     signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult, sendPasswordResetEmail, updateEmail, updatePassword
 } from "firebase/auth"
-import { doc, collection, getDocs, addDoc, getDoc, query, where, orderBy, updateDoc, DocumentReference } from "firebase/firestore"
+import { doc, collection, getDocs, addDoc, getDoc, query, where, orderBy, updateDoc, deleteDoc } from "firebase/firestore"
 import { IToursimPlacesCollection } from "../../entities/tourism-card/ui/tourism-card";
 import { IUserData } from "../../entities/viewer/store"
 import { IFIlterData } from "../../features/tourism-category/model/use-filters";
@@ -53,13 +53,23 @@ export const editAccount = async (data: IUserData) => {
 export const checkCodeManageAccount = async (email: string | undefined, code: number) => {
     const q = collection(firestore, "user-keys")
     const userKeys = (await getDocs(q)).docs.map(doc => doc.data())
-    const findCode = userKeys.find(uk => uk["user-email"] === email && uk.code === code)
+    const findCode = userKeys.find(uk => uk["user-email"] === email && uk.code === code && new Date(uk.date).getDay() === new Date().getDay())
+    if (findCode) {
+        const q = query(collection(firestore, "user-keys"), where("code", "==", code))
+        const querySnapshot = await getDocs(q);
+        let docID = ''
+        querySnapshot.forEach((doc) => {
+            docID = doc.id
+        })
+        const user_keys = doc(firestore, "user-keys", docID)
+        await deleteDoc(user_keys)
+    }
     return findCode || null
 }
 
 export const sendCodeManageAccount = async (email: any) => {
     const code = Number(generateCode(4));
-    (await addDoc(collection(firestore, "user-keys"), { code, date: Date.now().toLocaleString(), "user-email": email }))
+    (await addDoc(collection(firestore, "user-keys"), { code, date: new Date().toLocaleString(), "user-email": email }))
     const data = await sendPasswordResetEmail(auth, email, { url: `http://localhost:5173/?code=${code}` })
     return data
 }

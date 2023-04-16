@@ -11,7 +11,7 @@ import { useViewerAtom } from "../../entities/viewer/model";
 import useCheckVerificationCodeQuery from "../../features/auth/model/use-check-verification-code-query";
 import useSendVerificationCodeMutate from "../../features/auth/model/use-send-verification-code-mutate";
 
-export default function Account() {
+export default function AccountPage() {
     const toast = useToastView()
     const [pinCode, setPinCode] = useState("")
 
@@ -45,7 +45,7 @@ export default function Account() {
             <Heading size="lg">Modify your account profile</Heading>
             <AuthForm.ProfileTemplate openModal={onOpen} onClose={onCloseModal} />
 
-            <Modal isOpen={isOpen} onClose={onClose}>
+            <Modal isOpen={isOpen} onClose={onClose} size="lg">
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Confirm code</ModalHeader>
@@ -67,8 +67,8 @@ export default function Account() {
                             <Text fontSize={15}>
                                 Sent to email code
                             </Text>
-                            <Highlight query={data?.email ? data.email : "d"} styles={{ fontSize: 14, px: '2', py: '1', rounded: 'full', bg: 'red.100' }}>
-                                {data?.email ? data.email : "d"}
+                            <Highlight query={data?.email ? data.email : "xd"} styles={{ fontSize: 14, px: '2', py: '1', rounded: 'full', bg: 'red.100' }}>
+                                {data?.email ? data.email : "xd"}
                             </Highlight>
                         </HStack>
                         <Button isLoading={sendLoading || checkLoading} onClick={() => mutate(data?.email)} variant='solid'>Send Code</Button>

@@ -1,11 +1,12 @@
 import { Fragment } from "react"
 import { useQuery } from "react-query"
 import {
-    Flex, HStack, Button, Menu, MenuButton, MenuList, MenuItem,
-    MenuOptionGroup, MenuItemOption, Input, InputGroup, InputRightElement, Heading, Tag, ScaleFade, Spinner, Center
+    Box, Flex, HStack, Button, Menu, MenuButton, MenuList, MenuItem,
+    MenuOptionGroup, MenuItemOption, Input, InputGroup, InputRightElement, Heading, Tag, ScaleFade, Spinner, Center, IconButton
 } from "@chakra-ui/react"
 
-import { SearchIcon, ChevronDownIcon } from "@chakra-ui/icons"
+import { IoMdCheckmark } from "react-icons/io"
+import { SearchIcon, ChevronDownIcon, SmallCloseIcon } from "@chakra-ui/icons"
 
 import { getCoutries } from "../../../shared/api";
 import { IFIlterData, IFIlterAction, FilterActionKind } from "../model/use-filters"
@@ -17,7 +18,7 @@ export interface ICoutries {
 }
 
 export default function TourismCategory({ filterData, changer }: { filterData: IFIlterData, changer: React.Dispatch<IFIlterAction> }) {
-    const { data, isLoading } = useQuery<ICoutries[]>({ queryFn: getCoutries })
+    const { data, isLoading } = useQuery<ICoutries[]>({ queryKey: ["countries", filterData], queryFn: getCoutries })
 
     return (
         <Fragment>
@@ -34,12 +35,20 @@ export default function TourismCategory({ filterData, changer }: { filterData: I
                         <MenuOptionGroup title='Cities' type='checkbox'>
                             {isLoading && <Center><Spinner /></Center>}
                             {!isLoading && data && data.map(({ id, name }) => (
-                                <MenuItemOption
+                                <Box
                                     key={id}
-                                    value={name}
-                                    onClick={() => changer({ type: FilterActionKind.AddCity, payload: { id, name } })}>
-                                    {name}
-                                </MenuItemOption>
+                                    display="flex"
+                                    alignItems="center"
+                                    justifyContent="start"
+                                    p="6px 12px"
+                                    cursor="pointer"
+                                    _hover={{ bg: "whiteAlpha.200" }}
+                                    onClick={() => {
+                                        changer({ type: FilterActionKind.AddCity, payload: { id, name } });
+                                    }}>
+                                    <div style={{ width: 10, height: 10, marginRight: 15 }}>{filterData.cities.find(ct => ct.id === id) && <IoMdCheckmark />}</div>
+                                    <p>{name}</p>
+                                </Box>
                             ))}
                         </MenuOptionGroup>
                     </MenuList>
@@ -61,8 +70,18 @@ export default function TourismCategory({ filterData, changer }: { filterData: I
                         Choosen categories:
                     </Heading>
                     {filterData.cities.map(({ id, name }) => (
-                        <Tag colorScheme="whatsapp" key={id} size="lg">
-                            {name}
+                        <Tag colorScheme="whatsapp" gap={5} key={id} size="lg">
+                            <p>{name}</p>
+                            <IconButton
+                                w={8}
+                                h={8}
+                                bg={"transparent"}
+                                icon={<SmallCloseIcon />}
+                                onClick={() => {
+                                    changer({ type: FilterActionKind.AddCity, payload: { id, name } })
+                                }}
+                                aria-label={`Clear filter category ${name}`}
+                            />
                         </Tag>
                     ))}
                 </HStack>

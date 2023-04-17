@@ -1,11 +1,17 @@
+import { useMutation } from "react-query"
 import {
     Box, Card, CardHeader, CardBody, CardFooter, Heading, Center, Image,
     Divider, Accordion, AccordionItem, AccordionPanel, AccordionButton, HStack, IconButton, Tag, TagLabel, Tooltip
 } from "@chakra-ui/react"
 
+import { StarIcon, InfoIcon } from "@chakra-ui/icons"
+
 import styles from "./tourism-card.module.css"
 
-import { StarIcon, InfoIcon } from "@chakra-ui/icons"
+import { IUserData } from "../../viewer/store"
+import { markPlace } from "../../../shared/api"
+import { useToastView } from "../../../shared/hooks"
+import { queryClient } from "../../../app/providers/with-react-query/withReactQuery"
 
 export interface IToursimPlacesCollection {
     title: string
@@ -13,14 +19,29 @@ export interface IToursimPlacesCollection {
     description: string
 }
 
-export default function TourismCard({ preview, title, description }: IToursimPlacesCollection) {
+export default function TourismCard(
+    { user, place: { preview, title, description } }
+        : { user: IUserData | null, place: IToursimPlacesCollection }) {
+    const toast = useToastView()
+    const { mutate, isLoading } = useMutation(
+        ["markPlace"],
+        async () => await markPlace(title, user),
+        {
+            onSuccess: () => {
+                toast({ title: "Change Marked place" })
+                queryClient.invalidateQueries("GetViewer")
+            }
+        })
+
     return (
         <Card position="relative" variant="filled">
             <CardHeader>
                 <Center>
-                    <Heading size="lg">
-                        {title}
-                    </Heading>
+                    <Tooltip label={title}>
+                        <Heading size="lg" noOfLines={1}>
+                            {title}
+                        </Heading>
+                    </Tooltip>
                 </Center>
             </CardHeader>
             <CardBody overflow="hidden">
@@ -34,9 +55,11 @@ export default function TourismCard({ preview, title, description }: IToursimPla
                                     {title} (more)
                                 </Heading>
                             </AccordionButton>
-                            <AccordionPanel pb={4}>
-                                {description}
-                            </AccordionPanel>
+                            <Tooltip label={description}>
+                                <AccordionPanel noOfLines={2}>
+                                    {description}
+                                </AccordionPanel>
+                            </Tooltip>
                         </AccordionItem>
                     </Accordion>
 
@@ -49,10 +72,23 @@ export default function TourismCard({ preview, title, description }: IToursimPla
             </CardBody>
             <CardFooter justifyContent="space-evenly">
                 <Tooltip label="Mark">
-                    <IconButton colorScheme="red" variant="outline" icon={<StarIcon />} aria-label={"FollowMe"} />
+                    <IconButton
+                        isLoading={isLoading}
+                        isDisabled={user === null}
+                        colorScheme="red"
+                        variant={user?.places.includes(title) ? "solid" : "outline"}
+                        icon={<StarIcon />}
+                        aria-label={"FollowMe"}
+                        onClick={() => mutate()}
+                    />
                 </Tooltip>
                 <Tooltip label="Info">
-                    <IconButton colorScheme="red" variant="outline" icon={<InfoIcon />} aria-label={"FollowMe"} />
+                    <IconButton
+                        colorScheme="red"
+                        variant="outline"
+                        icon={<InfoIcon />}
+                        aria-label={"FollowMe"}
+                    />
                 </Tooltip>
             </CardFooter>
         </Card>

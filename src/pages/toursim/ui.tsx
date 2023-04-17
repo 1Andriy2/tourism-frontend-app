@@ -1,45 +1,32 @@
-import { Fragment } from "react"
-import { useQuery } from "react-query";
-import { Box, Divider, SimpleGrid, Spinner } from "@chakra-ui/react"
+import { useEffect, Fragment } from "react"
+import { useInView } from "@react-spring/web"
+import { Box, Center, Divider, SimpleGrid, Spinner } from "@chakra-ui/react"
 
-import pr1 from "../../shared/images/place1.jpg"
-import pr2 from "../../shared/images/place2.jpg"
-
-import { TourismCard } from "../../entities"
 import { TourismCategory } from "../../features"
-import { getTouristPlaces } from "../../shared/api";
-import useFilters from "../../features/tourism-category/model/use-filters";
-
-const dataPlaces = [
-    {
-        id: 1,
-        preview: pr1,
-        title: "Lviv",
-        description: "Lorem ipsum dolor sit amet, consectetur adip",
-    },
-    {
-        id: 2,
-        preview: pr2,
-        title: "Lviv38",
-        description: "Lorem ipsum dolor sit amet, consectetur adip",
-    },
-    {
-        id: 3,
-        preview: pr1,
-        title: "Lviv83",
-        description: "Lorem ipsum dolor sit amet, consectetur adip",
-    },
-    {
-        id: 4,
-        preview: pr2,
-        title: "Lviv34",
-        description: "Lorem ipsum dolor sit amet, consectetur adip",
-    }
-]
+import usePaginateQuery from "../../shared/hooks/use-paginate-query"
+import useFilters from "../../features/tourism-category/model/use-filters"
+import TourismCard from "../../entities/tourism-card/ui/tourism-card"
 
 export default function TourismPage() {
+    const [refScrollBtn, isBottom] = useInView()
     const [state, dispatch] = useFilters()
-    const { data, isLoading } = useQuery(['tourism-places', state], async () => getTouristPlaces(state))
+    const {
+        data,
+        isLoading,
+        isFetchingNextPage,
+        isFetchingPreviousPage,
+        fetchNextPage,
+        fetchPreviousPage,
+        hasNextPage,
+        hasPreviousPage } = usePaginateQuery(state)
+
+    useEffect(() => {
+        if (refScrollBtn.current === null) return
+
+        if (isBottom && hasNextPage) {
+            fetchNextPage()
+        }
+    }, [refScrollBtn, isBottom, hasNextPage])
 
     return (
         <Box px={8}>
@@ -47,10 +34,20 @@ export default function TourismPage() {
             <Divider my={5} height={5} />
             <SimpleGrid columns={[1, 2, 3]} spacing={8}>
                 {isLoading && <Spinner />}
-                {!isLoading && data && data.map(place => (
-                    <TourismCard key={place.title} {...place} />
+                {!isLoading && data?.pages && data.pages.map((page, i) => (
+                    <Fragment key={i}>
+                        {page.data.map(place => (
+                            <TourismCard key={place.title} {...place} />
+                        ))}
+                    </Fragment>
                 ))}
             </SimpleGrid>
+            {isFetchingNextPage && <Center><Spinner /></Center>}
+            <button
+                ref={refScrollBtn}
+                style={{ visibility: "hidden", padding: "10px" }}
+                onClick={() => fetchNextPage()}
+                disabled={!hasNextPage || isFetchingNextPage} />
         </Box>
     )
 }

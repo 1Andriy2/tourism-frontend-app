@@ -2,7 +2,7 @@ import {
     getAuth, createUserWithEmailAndPassword, UserCredential, User,
     signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult, sendPasswordResetEmail, updateEmail, updatePassword
 } from "firebase/auth"
-import { doc, collection, getDocs, addDoc, getDoc, query, where, orderBy, updateDoc, deleteDoc } from "firebase/firestore"
+import { doc, collection, getDocs, addDoc, getDoc, query, where, orderBy, updateDoc, deleteDoc, limit, startAfter, endBefore } from "firebase/firestore"
 import { IToursimPlacesCollection } from "../../entities/tourism-card/ui/tourism-card";
 import { IUserData } from "../../entities/viewer/store"
 import { IFIlterData } from "../../features/tourism-category/model/use-filters";
@@ -104,19 +104,19 @@ export const getCoutries = async () => {
     return countries as ICoutries[]
 }
 
-export const getTouristPlaces = async (filter: IFIlterData) => {
+export const getTouristPlaces = async (filter: IFIlterData, pageParam: any = 0, countPerPage: number = 3) => {
     const countriesDataIds: string[] = filter.cities.map(c => c.id)
     const coll = collection(firestore, "tourist-places")
     if (countriesDataIds.length === 0) {
-        const q = query(coll, where("title", ">=", filter.search), orderBy("title"))
+        const q = query(coll, where("title", ">=", filter.search), orderBy("title", filter.sort), startAfter(pageParam), limit(countPerPage))
         const docs = (await getDocs(q)).docs
+        console.log("🚀 ~ file: index.ts:114 ~ getTouristPlaces ~ docs:", docs)
         const touristPlaces = docs.map(doc => doc.data())
-        return touristPlaces as IToursimPlacesCollection[]
+        return { data: touristPlaces as IToursimPlacesCollection[], nextCursor: docs.length === countPerPage ? docs[docs.length - 1] : null, }
     } else {
-        const q = query(coll, where("country-id", "in", countriesDataIds))
+        const q = query(coll, where("country-id", "in", countriesDataIds), where("title", ">=", filter.search), orderBy("title", filter.sort), startAfter(pageParam), limit(countPerPage))
         const docs = (await getDocs(q)).docs
-        console.log("🚀 ~ file: index.ts:75 ~ getTouristPlaces ~ docs:", docs)
         const touristPlaces = docs.map(doc => doc.data())
-        return touristPlaces as IToursimPlacesCollection[]
+        return { data: touristPlaces as IToursimPlacesCollection[], nextCursor: docs.length === countPerPage ? docs[docs.length - 1] : null, }
     }
 }

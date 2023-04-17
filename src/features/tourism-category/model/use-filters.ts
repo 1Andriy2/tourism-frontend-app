@@ -1,4 +1,5 @@
 import { useReducer } from "react"
+import { OrderByDirection } from "firebase/firestore"
 
 export enum FilterActionKind {
     SetSearch = 'SetSearch',
@@ -8,7 +9,7 @@ export enum FilterActionKind {
 
 export interface IFIlterData {
     search: string
-    sort: string
+    sort: OrderByDirection
     cities: { id: string, name: string }[]
 }
 

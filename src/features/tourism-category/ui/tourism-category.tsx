@@ -17,7 +17,7 @@ export interface ICoutries {
 }
 
 export default function TourismCategory({ filterData, changer }: { filterData: IFIlterData, changer: React.Dispatch<IFIlterAction> }) {
-    const { data, isLoading } = useQuery<ICoutries[]>({ queryFn: async () => await getCoutries() })
+    const { data, isLoading } = useQuery<ICoutries[]>({ queryFn: getCoutries })
 
     return (
         <Fragment>

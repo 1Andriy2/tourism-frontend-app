@@ -1,4 +1,3 @@
-import { atom } from "jotai"
 import { atomWithStorage } from "jotai/utils"
 
 export interface IAuthData {
@@ -7,9 +6,9 @@ export interface IAuthData {
 }
 
 export interface IUserData {
-    // id: string
     name: string
     email: string,
+    places: string[]
     password: string
 }
 

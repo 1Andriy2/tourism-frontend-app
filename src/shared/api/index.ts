@@ -98,6 +98,26 @@ export const signOutViewer = async () => {
     return await signOut(auth)
 }
 
+export const markPlace = async (title: string, user: IUserData | null) => {
+    if (!user) {
+        return
+    }
+    const q = query(collection(firestore, "users"), where("email", "==", user.email))
+    const querySnapshot = await getDocs(q)
+    let docID = ''
+    querySnapshot.forEach((doc) => {
+        docID = doc.id
+    })
+    const quest = doc(firestore, "users", docID)
+    let new_pl: string[] = []
+    if (user.places.includes(title)) {
+        new_pl = user.places.filter(ts => ts !== title)
+    } else {
+        new_pl = [...user.places, title]
+    }
+    return await updateDoc(quest, { places: new_pl })
+}
+
 export const getCoutries = async () => {
     const docs = (await getDocs(collection(firestore, "countries"))).docs
     const countries = docs.map(doc => ({ id: doc.id, ...doc.data() }))
@@ -110,7 +130,6 @@ export const getTouristPlaces = async (filter: IFIlterData, pageParam: any = 0, 
     if (countriesDataIds.length === 0) {
         const q = query(coll, where("title", ">=", filter.search), orderBy("title", filter.sort), startAfter(pageParam), limit(countPerPage))
         const docs = (await getDocs(q)).docs
-        console.log("🚀 ~ file: index.ts:114 ~ getTouristPlaces ~ docs:", docs)
         const touristPlaces = docs.map(doc => doc.data())
         return { data: touristPlaces as IToursimPlacesCollection[], nextCursor: docs.length === countPerPage ? docs[docs.length - 1] : null, }
     } else {

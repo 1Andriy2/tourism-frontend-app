@@ -19,8 +19,8 @@ export const getViewers = async () => {
     return users
 }
 
-export const addViewer = async (data: IUserData) => {
-    const docs = (await addDoc(collection(firestore, "users"), data))
+export const addViewer = async (data: Omit<IUserData, "places">) => {
+    const docs = (await addDoc(collection(firestore, "users"), { ...data, places: [] }))
     return docs
 }
 
@@ -80,18 +80,18 @@ export const getViewerByEmail = async (email: string) => {
     return response
 }
 
-export const registerViwer = async (data: IUserData): Promise<{ viewer: IUserData, token: string | undefined } | undefined> => {
+export const registerViwer = async (data: Omit<IUserData, "places">): Promise<{ viewer: IUserData, token: string | undefined } | undefined> => {
     const created: UserCredential = await createUserWithEmailAndPassword(auth, data.email, data.password)
     const user: User & { accessToken?: string } = created.user
     await addViewer(data)
-    return { viewer: data, token: user?.accessToken }
+    return { viewer: { ...data, places: [] }, token: user?.accessToken }
 }
 
 export const logInViwer = async (data: Omit<IUserData, "name">): Promise<{ viewer: any, token: string | undefined } | undefined> => {
     const created: UserCredential = await signInWithEmailAndPassword(auth, data.email, data.password)
     const user: User & { accessToken?: string } = created.user
     const viewer = await getViewerByEmail(data.email)
-    return { viewer, token: user?.accessToken }
+    return { viewer: { ...viewer, places: [] }, token: user?.accessToken }
 }
 
 export const signOutViewer = async () => {

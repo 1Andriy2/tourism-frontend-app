@@ -10,7 +10,7 @@ export default function useRegisterMutate(oMutationOpts = {}) {
     const { setAuthData } = useViewerAtom()
 
     return useMutation(
-        async (oCredentials: IUserData) => await registerViwer(oCredentials),
+        async (oCredentials: Omit<IUserData, "places">) => await registerViwer(oCredentials),
         {
             ...oMutationOpts,
             onMutate: () => {

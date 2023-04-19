@@ -1,4 +1,5 @@
-import { useEffect, Fragment } from "react"
+import { useEffect, Fragment, forwardRef } from "react"
+import { motion } from "framer-motion"
 import { useInView } from "@react-spring/web"
 import { Box, Center, Divider, SimpleGrid, Spinner } from "@chakra-ui/react"
 
@@ -7,6 +8,13 @@ import { useViewerAtom } from "../../entities/viewer/model"
 import usePaginateQuery from "../../shared/hooks/use-paginate-query"
 import useFilters from "../../features/tourism-category/model/use-filters"
 import TourismCard from "../../entities/tourism-card/ui/tourism-card"
+
+const MotionTourismCard = motion(forwardRef(TourismCard))
+
+const variants = {
+    hidden: { opacity: 0, y: -20 },
+    visible: { opacity: 1, y: 0 },
+};
 
 export default function TourismPage() {
     const { authData: { data: user } } = useViewerAtom()
@@ -39,7 +47,14 @@ export default function TourismPage() {
                 {!isLoading && data?.pages && data.pages.map((page, i) => (
                     <Fragment key={i}>
                         {page.data.map(place => (
-                            <TourismCard key={place.title} user={user} place={place} />
+                            <MotionTourismCard
+                                key={place.title}
+                                initial="hidden"
+                                animate="visible"
+                                variants={variants}
+                                user={user}
+                                place={place}
+                            />
                         ))}
                     </Fragment>
                 ))}

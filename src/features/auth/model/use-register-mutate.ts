@@ -26,7 +26,7 @@ export default function useRegisterMutate(oMutationOpts = {}) {
 
 >>>>>>> 6e8ab80 (add mutate: register)
     return useMutation(
-        async (oCredentials: IUserData) => await registerViwer(oCredentials),
+        async (oCredentials: Omit<IUserData, "places">) => await registerViwer(oCredentials),
         {
             ...oMutationOpts,
             onMutate: () => {

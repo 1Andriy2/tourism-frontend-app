@@ -1,7 +1,8 @@
+import { LegacyRef, ForwardRefRenderFunction } from "react"
 import { useMutation } from "react-query"
 import {
     Box, Card, CardHeader, CardBody, CardFooter, Heading, Center, Image,
-    Divider, Accordion, AccordionItem, AccordionPanel, AccordionButton, HStack, IconButton, Tag, TagLabel, Tooltip
+    Divider, Accordion, AccordionItem, AccordionPanel, AccordionButton, IconButton, Tag, TagLabel, Tooltip
 } from "@chakra-ui/react"
 
 import { StarIcon, InfoIcon } from "@chakra-ui/icons"
@@ -19,9 +20,12 @@ export interface IToursimPlacesCollection {
     description: string
 }
 
-export default function TourismCard(
-    { user, place: { preview, title, description } }
-        : { user: IUserData | null, place: IToursimPlacesCollection }) {
+export interface IToursimPlacesCard {
+    user: IUserData | null, place: IToursimPlacesCollection
+}
+
+
+const TourismCard: ForwardRefRenderFunction<unknown, IToursimPlacesCard> = ({ user, place: { preview, title, description } }, ref: LegacyRef<any> | undefined) => {
     const toast = useToastView()
     const { mutate, isLoading } = useMutation(
         ["markPlace"],
@@ -34,7 +38,7 @@ export default function TourismCard(
         })
 
     return (
-        <Card position="relative" variant="filled">
+        <Card ref={ref} position="relative" variant="filled">
             <CardHeader>
                 <Center>
                     <Tooltip label={title}>
@@ -46,7 +50,16 @@ export default function TourismCard(
             </CardHeader>
             <CardBody overflow="hidden">
                 <Box>
-                    <Image className={styles.image_preview} minH="200px" maxH="200px" h="100%" w="100%" objectFit="cover" borderRadius="8px" src={preview} />
+                    <Image
+                        className={styles.image_preview}
+                        minH="200px"
+                        maxH="200px"
+                        h="100%"
+                        w="100%"
+                        objectFit="cover"
+                        borderRadius="8px"
+                        src={preview}
+                    />
                     <Divider my={5} />
                     <Accordion allowMultiple>
                         <AccordionItem>
@@ -94,3 +107,5 @@ export default function TourismCard(
         </Card>
     )
 }
+
+export default TourismCard

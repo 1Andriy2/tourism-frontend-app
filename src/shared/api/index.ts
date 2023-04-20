@@ -32,7 +32,7 @@ export const getViewer = async (): Promise<{ token: IdTokenResult, viewer: any }
     return { token, viewer }
 }
 
-export const editAccount = async (data: IUserData) => {
+export const editAccount = async (data: Omit<IUserData, "places">) => {
     const { email, password, ...rest } = data
     if (auth.currentUser && email) {
         await updateEmail(auth.currentUser, email)
@@ -87,7 +87,7 @@ export const registerViwer = async (data: Omit<IUserData, "places">): Promise<{ 
     return { viewer: { ...data, places: [] }, token: user?.accessToken }
 }
 
-export const logInViwer = async (data: Omit<IUserData, "name">): Promise<{ viewer: any, token: string | undefined } | undefined> => {
+export const logInViwer = async (data: Omit<IUserData, "name" | "places">): Promise<{ viewer: any, token: string | undefined } | undefined> => {
     const created: UserCredential = await signInWithEmailAndPassword(auth, data.email, data.password)
     const user: User & { accessToken?: string } = created.user
     const viewer = await getViewerByEmail(data.email)

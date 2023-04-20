@@ -13,7 +13,7 @@ export default function useRefreshAccountMutate(oMutationOpts: any) {
     const { authData: { token }, setAuthData } = useViewerAtom()
 
     return useMutation(
-        async (oCredentials: IUserData) => await editAccount(oCredentials),
+        async (oCredentials: Omit<IUserData, "places">) => await editAccount(oCredentials),
         {
             ...oMutationOpts,
             onMutate: () => {

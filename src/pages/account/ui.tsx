@@ -76,6 +76,6 @@ export default function AccountPage() {
                     </ModalFooter>
                 </ModalContent>
             </Modal>
-        </Box >
+        </Box>
     )
 }

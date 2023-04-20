@@ -9,7 +9,7 @@ export default function useLogInMutate(oMutationOpts = {}) {
     const { setAuthData } = useViewerAtom()
 
     return useMutation(
-        async (oCredentials: Omit<IUserData, "name">) => await logInViwer(oCredentials),
+        async (oCredentials: Omit<IUserData, "name" | "places">) => await logInViwer(oCredentials),
         {
             ...oMutationOpts,
             onMutate: () => {

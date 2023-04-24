@@ -51,10 +51,10 @@ export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
                     </UserPoppup>
                 ) : (
                     <Fragment>
-                        <Button as={ReachLink} variant="ghost" colorScheme="whatsapp" to={urls.logIn}>
+                        <Button as={ReachLink} variant="ghost" colorScheme="whatsapp" to={urls.auth + "/" + urls.logIn}>
                             LogIn
                         </Button>
-                        <Button as={ReachLink} variant="ghost" colorScheme="whatsapp" to={urls.register}>
+                        <Button as={ReachLink} variant="ghost" colorScheme="whatsapp" to={urls.auth + "/" + urls.register}>
                             Register
                         </Button>
                     </Fragment>

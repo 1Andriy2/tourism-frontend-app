@@ -22,7 +22,7 @@ export default function UserPoppup({ children }: { children: ReactNode }) {
                 <PopoverHeader>User Permissions!</PopoverHeader>
                 <PopoverBody>
                     <VStack>
-                        <Button as={ReachLink} to={urls.profile} variant="ghost" colorScheme="whatsapp" w="100%" leftIcon={<AiFillProfile size={22} />}>
+                        <Button as={ReachLink} to={urls.account + "/" + urls.profile} variant="ghost" colorScheme="whatsapp" w="100%" leftIcon={<AiFillProfile size={22} />}>
                             Profile
                         </Button>
                         <Button variant="ghost" colorScheme="whatsapp" onClick={() => mutate()} w="100%" leftIcon={<RiLogoutCircleFill size={22} />}>

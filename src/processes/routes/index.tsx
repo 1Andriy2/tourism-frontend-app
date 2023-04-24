@@ -32,24 +32,25 @@ const router = createBrowserRouter([
         ]
     },
     {
+        path: urls.account,
         element: <Layout.AccountLayout />,
         children: [
             {
-                path: "account/profile",
+                path: urls.profile,
                 element: <AccountPage />,
             },
         ]
     },
     {
-        path: "auth",
+        path: urls.auth,
         element: <Layout.AuthLayout />,
         children: [
             {
-                path: "login",
+                path: urls.logIn,
                 element: <LogInPage />,
             },
             {
-                path: "register",
+                path: urls.register,
                 element: <RegisterPage />
             },
         ]

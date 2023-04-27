@@ -9,10 +9,8 @@ export default function usePrivateRoute() {
     const { isAuthenticated } = useViewerAtom()
 
     useEffect(() => {
-        console.log(!isAuthenticated);
-
         if (!isAuthenticated) {
-            navigate(urls.logIn)
+            navigate("/" + urls.auth + "/" + urls.logIn)
         }
     }, [isAuthenticated])
 }

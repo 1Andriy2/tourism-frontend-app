@@ -1,13 +1,14 @@
-import { useEffect, Fragment, forwardRef } from "react"
+import { useEffect, Fragment, forwardRef, useState } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "@react-spring/web"
-import { Box, Center, Divider, SimpleGrid, Spinner } from "@chakra-ui/react"
+import { Box, Center, Divider, SimpleGrid, Spinner, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, useDisclosure } from "@chakra-ui/react"
 
 import { TourismCategory } from "../../features"
+import { RentForm } from "../../features/tourism"
 import { useViewerAtom } from "../../entities/viewer/model"
 import usePaginateQuery from "../../shared/hooks/use-paginate-query"
 import useFilters from "../../features/tourism-category/model/use-filters"
-import TourismCard from "../../entities/tourism-card/ui/tourism-card"
+import TourismCard, { IToursimPlacesCollection } from "../../entities/tourism-card/ui/tourism-card"
 
 const MotionTourismCard = motion(forwardRef(TourismCard))
 
@@ -17,6 +18,8 @@ const variants = {
 };
 
 export default function TourismPage() {
+    const [activeTourism, setActiveTourism] = useState<IToursimPlacesCollection | null>(null)
+    const { isOpen, onOpen, onClose } = useDisclosure()
     const { authData: { data: user } } = useViewerAtom()
     const [refScrollBtn, isBottom] = useInView()
     const [state, dispatch] = useFilters()
@@ -38,10 +41,26 @@ export default function TourismPage() {
         }
     }, [refScrollBtn, isBottom, hasNextPage])
 
+    function onOpenRentModal(tourism: IToursimPlacesCollection): void {
+        onOpen()
+        setActiveTourism(tourism)
+    }
+
     return (
         <Box px={8}>
             <TourismCategory filterData={state} changer={dispatch} />
             <Divider my={5} height={5} />
+
+            <Modal isOpen={isOpen && activeTourism !== null} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>Rent: "{activeTourism?.title}";</ModalHeader>
+                    <ModalBody>
+                        {activeTourism && <RentForm tourism={activeTourism} />}
+                    </ModalBody>
+                </ModalContent>
+            </Modal>
+
             <SimpleGrid columns={[1, 2, 3]} spacing={8}>
                 {isLoading && <Spinner />}
                 {!isLoading && data?.pages && data.pages.map((page, i) => (
@@ -54,6 +73,7 @@ export default function TourismPage() {
                                 variants={variants}
                                 user={user}
                                 place={place}
+                                onOpenRentModal={onOpenRentModal}
                             />
                         ))}
                     </Fragment>

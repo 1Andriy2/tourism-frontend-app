@@ -1,6 +1,7 @@
 import { Link as ReachLink } from "react-router-dom"
 import { Box, VStack, Button, Heading, Divider } from "@chakra-ui/react"
 import { ArrowLeftIcon, SettingsIcon } from "@chakra-ui/icons"
+import { BsClockHistory } from "react-icons/bs"
 
 import { urls } from "../../shared/config"
 import { useViewerAtom } from "../../entities/viewer/model"
@@ -18,9 +19,7 @@ export default function AccountAside() {
                 <Heading size={"md"}>Set up's</Heading>
                 <Divider />
                 <Button as={ReachLink} to={urls.profile} w="100%" leftIcon={<SettingsIcon />}>Profile</Button>
-                <Button as={ReachLink} to={urls.profile} w="100%" leftIcon={<SettingsIcon />}>Profile</Button>
-                <Button as={ReachLink} to={urls.profile} w="100%" leftIcon={<SettingsIcon />}>Profile</Button>
-                <Button as={ReachLink} to={urls.profile} w="100%" leftIcon={<SettingsIcon />}>Profile</Button>
+                <Button as={ReachLink} to={urls.rentHistory} w="100%" leftIcon={<BsClockHistory />}>Rent History</Button>
             </VStack>
         </Box>
     )

@@ -1,3 +1,4 @@
+import { format } from "date-fns"
 import {
     getAuth, createUserWithEmailAndPassword, UserCredential, User,
     signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult, sendPasswordResetEmail, updateEmail, updatePassword
@@ -10,6 +11,7 @@ import { ICoutries } from "../../features/tourism-category/ui/tourism-category";
 
 import { generateCode } from "./utils";
 import { firestore } from '../../processes/firebase'
+import { IPayloadRent } from "../../features/tourism/lib/constant";
 
 const auth = getAuth();
 
@@ -130,12 +132,32 @@ export const getTouristPlaces = async (filter: IFIlterData, pageParam: any = 0, 
     if (countriesDataIds.length === 0) {
         const q = query(coll, where("title", ">=", filter.search), orderBy("title", filter.sort), startAfter(pageParam), limit(countPerPage))
         const docs = (await getDocs(q)).docs
-        const touristPlaces = docs.map(doc => doc.data())
+        const touristPlaces = docs.map(doc => ({ id: doc.id, ...doc.data() }))
         return { data: touristPlaces as IToursimPlacesCollection[], nextCursor: docs.length === countPerPage ? docs[docs.length - 1] : null, }
     } else {
         const q = query(coll, where("country-id", "in", countriesDataIds), where("title", ">=", filter.search), orderBy("title", filter.sort), startAfter(pageParam), limit(countPerPage))
         const docs = (await getDocs(q)).docs
-        const touristPlaces = docs.map(doc => doc.data())
+        const touristPlaces = docs.map(doc => ({ id: doc.id, ...doc.data() }))
         return { data: touristPlaces as IToursimPlacesCollection[], nextCursor: docs.length === countPerPage ? docs[docs.length - 1] : null, }
     }
+}
+
+// Rent
+
+export const fetchRents = async (user: IUserData | null): Promise<any[]> => {
+    const quer = query(collection(firestore, "rent"), where("user_id", "==", user?.email))
+    const cursor = (await getDocs(quer)).docs
+    return await Promise.all(cursor.map((curso: any) => {
+        const curr = curso.data()
+        return new Promise((resolve) => {
+            getDoc(doc(firestore, "tourist-places", curr.tour_id))
+                .then((res: any) => {
+                    resolve({ Id: curso.id, Subject: res.data().title, StartTime: curr.start_date, EndTime: curr.end_date });
+                });
+        });
+    }))
+}
+
+export const rentTourism = async (data: IPayloadRent) => {
+    return await addDoc(collection(firestore, "rent"), data)
 }

@@ -15,18 +15,19 @@ import { useToastView } from "../../../shared/hooks"
 import { queryClient } from "../../../app/providers/with-react-query/withReactQuery"
 
 export interface IToursimPlacesCollection {
+    id?: string
     title: string
     preview: string
     description: string
 }
 
 export interface IToursimPlacesCard {
-    user: IUserData | null, place: IToursimPlacesCollection
+    user: IUserData | null, place: IToursimPlacesCollection, onOpenRentModal: (tourism: IToursimPlacesCollection) => void
 }
 
 
 const TourismCard: ForwardRefRenderFunction<unknown, IToursimPlacesCard> =
-    ({ user, place: { preview, title, description } }, ref: LegacyRef<any> | undefined) => {
+    ({ user, place: { id, preview, title, description }, onOpenRentModal }, ref: LegacyRef<any> | undefined) => {
         const toast = useToastView()
         const { mutate, isLoading } = useMutation(
             ["markPlace"],
@@ -96,12 +97,13 @@ const TourismCard: ForwardRefRenderFunction<unknown, IToursimPlacesCard> =
                             onClick={() => mutate()}
                         />
                     </Tooltip>
-                    <Tooltip label="Info">
+                    <Tooltip label="Rent">
                         <IconButton
                             colorScheme="red"
                             variant="outline"
                             icon={<InfoIcon />}
-                            aria-label={"FollowMe"}
+                            aria-label={"Rent"}
+                            onClick={() => onOpenRentModal({ id, preview, title, description })}
                         />
                     </Tooltip>
                 </CardFooter>

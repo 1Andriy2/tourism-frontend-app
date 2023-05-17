@@ -1,8 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './app'
+import { registerLicense } from '@syncfusion/ej2-base';
 
 import "./shared/css/index.css"
+
+
+// Registering Syncfusion license key
+registerLicense('Mgo+DSMBaFt+QHJqUE1mQ1BCaV1CX2BZf1N8R2JTe19gBShNYlxTR3ZaQ1piSXxQd0RkXX9X;Mgo+DSMBPh8sVXJ1S0R+WVpCaV5EQmFJfFBmRGNTfV96cFRWESFaRnZdQV1mSHlSdkdgWH5Zdndc;ORg4AjUWIQA/Gnt2VFhiQlRPcEBDW3xLflF1VWJZdVxxflFHcC0sT3RfQF5jTH9Ud0VhWn5fd3NSTw==;MjA5MTQzNkAzMjMxMmUzMjJlMzVpOEwxVEtSYmlqSDloTEk2YzdvTnByc3JOVjJtR3BWM2xYT2FIYUxQWnc4PQ==;MjA5MTQzN0AzMjMxMmUzMjJlMzVMWlJJMzB3YlpYRzVPNitLSzZxOFRjdzhqa3FBWFZrNmFMR3BJaDZyUkhjPQ==;NRAiBiAaIQQuGjN/V0d+Xk9BfVldXGVWfFN0RnNYf1RydV9CYUwgOX1dQl9gSXtScURjW3xfcXxWQGk=;MjA5MTQzOUAzMjMxMmUzMjJlMzViUXJaQml6UjZFWmU5YWtrQlVuMzZldzIxNTFqZlRFUmxSNG1PTXNTYVVBPQ==;MjA5MTQ0MEAzMjMxMmUzMjJlMzVJUTk5aFVYeDI4d1lma3lwUDgyTFJVUkQ0V0wwL2MxbkROYk52NEtSeEdnPQ==;Mgo+DSMBMAY9C3t2VFhiQlRPcEBDW3xLflF1VWJZdVxxflFHcC0sT3RfQF5jTH9Ud0VhWn5feXRTTw==;MjA5MTQ0MkAzMjMxMmUzMjJlMzVNQzQxMmtaRVFuOHFLRDlmbUUzQlNBM1d1U3VCdm5vNVVjdGdMdjJaM0tJPQ==;MjA5MTQ0M0AzMjMxMmUzMjJlMzVZM2p1blBrUlJocXJ2VHZtblBSRjJVYXJjakpHWWxKL2ZuekltKzcxaWdnPQ==;MjA5MTQ0NEAzMjMxMmUzMjJlMzViUXJaQml6UjZFWmU5YWtrQlVuMzZldzIxNTFqZlRFUmxSNG1PTXNTYVVBPQ==')
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>

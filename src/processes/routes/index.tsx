@@ -9,6 +9,7 @@ const HomePage = lazy(() => import("../../pages/home"))
 const AboutPage = lazy(() => import("../../pages/about"))
 const ToursimPage = lazy(() => import("../../pages/toursim"))
 const AccountPage = lazy(() => import("../../pages/account"))
+const RentHistoryPage = lazy(() => import("../../pages/rent-history"))
 const LogInPage = lazy(() => import("../../pages/login"))
 const RegisterPage = lazy(() => import("../../pages/register"))
 
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: urls.profile,
                 element: <AccountPage />,
+            },
+            {
+                path: urls.rentHistory,
+                element: <RentHistoryPage />,
             },
         ]
     },

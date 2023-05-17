@@ -1,0 +1,1 @@
+export { default as RentForm } from "./ui/rent-form"

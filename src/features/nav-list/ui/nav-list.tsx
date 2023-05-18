@@ -22,14 +22,13 @@ const navLinks = [
         label: "About",
     },
     {
-        path: "urls.about",
+        path: urls.contacts,
         label: "Contacts",
     },
 ]
 
 export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
     const pathname = useLocation().pathname
-    console.log("🚀 ~ file: nav-list.tsx:32 ~ NavList ~ pathname:", pathname)
     const { isAuthenticated, authData } = useViewerAtom()
 
     const [isLargerThan800] = useMediaQuery("(max-width:950px)")

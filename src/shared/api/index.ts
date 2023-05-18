@@ -130,12 +130,12 @@ export const getTouristPlaces = async (filter: IFIlterData, pageParam: any = 0, 
     const countriesDataIds: string[] = filter.cities.map(c => c.id)
     const coll = collection(firestore, "tourist-places")
     if (countriesDataIds.length === 0) {
-        const q = query(coll, where("title", ">=", filter.search), orderBy("title", filter.sort), startAfter(pageParam), limit(countPerPage))
+        const q = query(coll, where("title", ">=", filter.search), where("title", "<=", filter.search + "~"), orderBy("title", "asc"), startAfter(pageParam), limit(countPerPage))
         const docs = (await getDocs(q)).docs
         const touristPlaces = docs.map(doc => ({ id: doc.id, ...doc.data() }))
         return { data: touristPlaces as IToursimPlacesCollection[], nextCursor: docs.length === countPerPage ? docs[docs.length - 1] : null, }
     } else {
-        const q = query(coll, where("country-id", "in", countriesDataIds), where("title", ">=", filter.search), orderBy("title", filter.sort), startAfter(pageParam), limit(countPerPage))
+        const q = query(coll, where("country-id", "in", countriesDataIds), where("title", ">=", filter.search), where("title", "<=", filter.search + "~"), orderBy("title", "asc"), startAfter(pageParam), limit(countPerPage))
         const docs = (await getDocs(q)).docs
         const touristPlaces = docs.map(doc => ({ id: doc.id, ...doc.data() }))
         return { data: touristPlaces as IToursimPlacesCollection[], nextCursor: docs.length === countPerPage ? docs[docs.length - 1] : null, }

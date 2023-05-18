@@ -25,7 +25,6 @@ export interface IToursimPlacesCard {
     user: IUserData | null, place: IToursimPlacesCollection, onOpenRentModal: (tourism: IToursimPlacesCollection) => void
 }
 
-
 const TourismCard: ForwardRefRenderFunction<unknown, IToursimPlacesCard> =
     ({ user, place: { id, preview, title, description }, onOpenRentModal }, ref: LegacyRef<any> | undefined) => {
         const toast = useToastView()

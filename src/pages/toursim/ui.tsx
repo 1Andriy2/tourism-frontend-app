@@ -1,4 +1,4 @@
-import { useEffect, Fragment, forwardRef, useState } from "react"
+import { useEffect, Fragment, forwardRef, useState, useMemo } from "react"
 import { motion } from "framer-motion"
 import { useInView } from "@react-spring/web"
 import { Box, Center, Divider, SimpleGrid, Spinner, Modal, ModalOverlay, ModalContent, ModalHeader, ModalBody, useDisclosure } from "@chakra-ui/react"
@@ -33,6 +33,33 @@ export default function TourismPage() {
         hasNextPage,
         hasPreviousPage } = usePaginateQuery(state)
 
+    const result: IToursimPlacesCollection[] = useMemo(() => {
+        const response: any[] = []
+        response.push(data?.pages.flatMap(({ data }) => data))
+        return response[0]?.sort((a: IToursimPlacesCollection, b: IToursimPlacesCollection) => {
+            switch (state.sort) {
+                case "asc":
+                    if (a.title > b.title) {
+                        return 1;
+                    }
+                    if (a.title < b.title) {
+                        return -1;
+                    }
+                    return 0;
+                case "desc":
+                    if (a.title < b.title) {
+                        return 1;
+                    }
+                    if (a.title > b.title) {
+                        return -1;
+                    }
+                    return 0;
+                default:
+                    break;
+            }
+        }) || []
+    }, [data, state.sort])
+
     useEffect(() => {
         if (refScrollBtn.current === null) return
 
@@ -63,20 +90,16 @@ export default function TourismPage() {
 
             <SimpleGrid columns={[1, 2, 3]} spacing={8}>
                 {isLoading && <Spinner />}
-                {!isLoading && data?.pages && data.pages.map((page, i) => (
-                    <Fragment key={i}>
-                        {page.data.map(place => (
-                            <MotionTourismCard
-                                key={place.title}
-                                initial="hidden"
-                                animate="visible"
-                                variants={variants}
-                                user={user}
-                                place={place}
-                                onOpenRentModal={onOpenRentModal}
-                            />
-                        ))}
-                    </Fragment>
+                {!isLoading && result && result.map(place => (
+                    <MotionTourismCard
+                        key={place.title}
+                        initial="hidden"
+                        animate="visible"
+                        variants={variants}
+                        user={user}
+                        place={place}
+                        onOpenRentModal={onOpenRentModal}
+                    />
                 ))}
             </SimpleGrid>
             {isFetchingNextPage && <Center><Spinner /></Center>}

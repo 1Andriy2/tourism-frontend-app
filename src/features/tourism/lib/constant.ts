@@ -15,6 +15,6 @@ export const rent: IPayloadRent = {
     phone: "",
     email: "",
     wishes: "",
-    start_date: new Date(),
+    start_date: new Date().toISOString().slice(0, 16),
     end_date: "",
 }

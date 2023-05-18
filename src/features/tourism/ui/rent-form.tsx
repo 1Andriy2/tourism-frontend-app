@@ -83,7 +83,7 @@ export default function RentForm({ tourism }: { tourism: IToursimPlacesCollectio
                         name="end_date"
                         type={"datetime-local"}
                         placeholder="Your end date"
-                        value={formik.values.end_date.toString()}
+                        value={formik.values.end_date.toLocaleString()}
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         disabled={isSubmitingLoading}

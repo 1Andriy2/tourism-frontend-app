@@ -90,7 +90,7 @@ const TourismCard: ForwardRefRenderFunction<unknown, IToursimPlacesCard> =
                             isLoading={isLoading}
                             isDisabled={user === null}
                             colorScheme="red"
-                            variant={user?.places.includes(title) ? "solid" : "outline"}
+                            variant={user?.places?.includes(title) ? "solid" : "outline"}
                             icon={<StarIcon />}
                             aria-label={"FollowMe"}
                             onClick={() => mutate()}

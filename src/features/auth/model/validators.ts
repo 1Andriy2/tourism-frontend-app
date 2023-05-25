@@ -7,7 +7,6 @@ export const ProfileSchema = yup.object({
     confirmPassword: yup.string().oneOf([yup.ref('password')], 'Passwords must match')
 })
 
-
 export const LogInSchema = yup.object({
     email: yup.string().email().required(),
     password: yup.string().trim().min(8).required(),

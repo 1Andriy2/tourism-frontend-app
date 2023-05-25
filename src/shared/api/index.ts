@@ -12,6 +12,8 @@ import { ICoutries } from "../../features/tourism-category/ui/tourism-category";
 import { generateCode } from "./utils";
 import { firestore } from '../../processes/firebase'
 import { IPayloadRent } from "../../features/tourism/lib/constant";
+import { IComments } from "../../entities/comment-card/ui/comment-card";
+import { IPayloadComments } from "../../features/contacts/lib/interface";
 
 const auth = getAuth();
 
@@ -142,6 +144,12 @@ export const getTouristPlaces = async (filter: IFIlterData, pageParam: any = 0, 
     }
 }
 
+export const getComments = async () => {
+    const docs = (await getDocs(collection(firestore, "comments"))).docs
+    const comments = docs.map(doc => ({ id: doc.id, ...doc.data() }))
+    return comments as IComments[]
+}
+
 // Rent
 
 export const fetchRents = async (user: IUserData | null): Promise<any[]> => {
@@ -160,4 +168,8 @@ export const fetchRents = async (user: IUserData | null): Promise<any[]> => {
 
 export const rentTourism = async (data: IPayloadRent) => {
     return await addDoc(collection(firestore, "rent"), data)
+}
+
+export const fetchAddContactsMessage = async (data: IPayloadComments) => {
+    return await addDoc(collection(firestore, "contacts"), data)
 }

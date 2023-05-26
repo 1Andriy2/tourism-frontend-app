@@ -1,9 +1,10 @@
 import { Fragment } from "react"
 import { useQuery } from "react-query"
+import { Spinner } from "@chakra-ui/react"
 import { Inject, Day, Week, WorkWeek, Month, Agenda, ScheduleComponent } from "@syncfusion/ej2-react-schedule"
 
 import { fetchRents } from "../../shared/api"
-import { Spinner } from "@chakra-ui/react"
+import { EditorGallary } from "../../features"
 import { useViewerAtom } from "../../entities/viewer/model"
 
 export default function RentHistory() {
@@ -20,6 +21,7 @@ export default function RentHistory() {
                         dataSource: data ? data : [],
                     }}
                     allowDragAndDrop
+                    editorTemplate={EditorGallary}
                 >
                     <Inject services={[Day, Week, WorkWeek, Month, Agenda]} />
                 </ScheduleComponent>

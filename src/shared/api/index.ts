@@ -1,4 +1,4 @@
-import { format } from "date-fns"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import {
     getAuth, createUserWithEmailAndPassword, UserCredential, User,
     signInWithEmailAndPassword, signOut, getIdTokenResult, IdTokenResult, sendPasswordResetEmail, updateEmail, updatePassword
@@ -10,10 +10,11 @@ import { IFIlterData } from "../../features/tourism-category/model/use-filters";
 import { ICoutries } from "../../features/tourism-category/ui/tourism-category";
 
 import { generateCode } from "./utils";
-import { firestore } from '../../processes/firebase'
+import { firestorage, firestore } from '../../processes/firebase'
 import { IPayloadRent } from "../../features/tourism/lib/constant";
 import { IComments } from "../../entities/comment-card/ui/comment-card";
 import { IPayloadComments } from "../../features/contacts/lib/interface";
+import { IFilesData } from "../../features/rent-history/ui/editor-galleries";
 
 const auth = getAuth();
 
@@ -172,4 +173,37 @@ export const rentTourism = async (data: IPayloadRent) => {
 
 export const fetchAddContactsMessage = async (data: IPayloadComments) => {
     return await addDoc(collection(firestore, "contacts"), data)
+}
+
+// Storage
+export const uploadFilesToGalleries = async ({ userId, rentId, files }: { userId: string | number, rentId: string | number, files: FileList }) => {
+    for (let i = 0; i < files.length; i++) {
+        const storageRef = ref(firestorage, `galleries/${files[i].name}`);
+        uploadBytes(storageRef, files[i])
+            .then((snapshot) => {
+                getDownloadURL(snapshot.ref)
+                    .then(async (res) => {
+                        try {
+                            await addDoc(collection(firestore, "place-galaries"), {
+                                userId,
+                                rentId,
+                                image: res,
+                            });
+                        } catch (err) {
+                            console.log((err as Error).message)
+                        }
+                    })
+                    .catch((err) => console.log(err.message));
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+}
+
+export const fetchFromGallariesByUserId = async (userId: string | number, rentId: string | number): Promise<IFilesData[]> => {
+    const q = query(collection(firestore, "place-galaries"), where("userId", "==", Number(userId)), where("rentId", "==", rentId))
+    const docs = (await getDocs(q)).docs
+    const result = docs.map(doc => ({ id: doc.id, ...doc.data() }))
+    return result as IFilesData[]
 }

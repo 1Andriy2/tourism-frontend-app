@@ -30,9 +30,11 @@ export default function Contacts() {
         <Heading>CONTACT INFO</Heading>
       </Center>
       <Flex
+        flexWrap={"wrap"}
         direction="row"
         alignItems="center"
         padding={["20px", "50px"]}
+        gap={5}
         justifyContent="center"
       >
         <Box
@@ -42,7 +44,6 @@ export default function Contacts() {
           p={5}
           borderWidth={1}
           borderRadius="md"
-          mr={[0, 4]}
           flexBasis={["100%", "auto"]}
           maxWidth="400px"
           maxHeight="80px"
@@ -58,7 +59,6 @@ export default function Contacts() {
           p={5}
           borderWidth={1}
           borderRadius="md"
-          mr={[0, 4]}
           flexBasis={["100%", "auto"]}
           maxWidth="400px"
           maxHeight="80px"

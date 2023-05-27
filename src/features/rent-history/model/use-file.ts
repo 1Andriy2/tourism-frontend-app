@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, ChangeEvent } from "react"
 
 export function useFile() {
     const [images, setImages] = useState<FileList | null>(null)
@@ -12,7 +12,7 @@ export function useFile() {
 
                 fileReader.onload = function () {
                     if (fileReader.result) {
-                        setPrintImages(prev => ([fileReader.result, ...prev]))
+                        setPrintImages(prev => ([{ image: fileReader.result, name: "" }, ...prev]))
                     }
                 }
             }
@@ -23,6 +23,10 @@ export function useFile() {
         }
     }, [images])
 
+    function changeImageName(e: ChangeEvent<HTMLInputElement>, index: number) {
+        setPrintImages(prev => prev.map((placeImage, i) => i === index ? { ...placeImage, name: e.target.value } : placeImage))
+    }
+
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setImages(event.target.files)
     }
@@ -32,5 +36,5 @@ export function useFile() {
         setPrintImages([])
     }
 
-    return { images, printImages, onChange, onClear }
+    return { images, printImages, changeImageName, onChange, onClear }
 }

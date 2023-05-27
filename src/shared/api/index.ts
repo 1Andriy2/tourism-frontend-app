@@ -176,7 +176,7 @@ export const fetchAddContactsMessage = async (data: IPayloadComments) => {
 }
 
 // Storage
-export const uploadFilesToGalleries = async ({ userId, rentId, files }: { userId: string | number, rentId: string | number, files: FileList }) => {
+export const uploadFilesToGalleries = async ({ userId, rentId, files, names }: { userId: string | number, rentId: string | number, files: FileList, names: string[] }) => {
     for (let i = 0; i < files.length; i++) {
         const storageRef = ref(firestorage, `galleries/${files[i].name}`);
         uploadBytes(storageRef, files[i])
@@ -187,6 +187,7 @@ export const uploadFilesToGalleries = async ({ userId, rentId, files }: { userId
                             await addDoc(collection(firestore, "place-galaries"), {
                                 userId,
                                 rentId,
+                                name: names[i],
                                 image: res,
                             });
                         } catch (err) {

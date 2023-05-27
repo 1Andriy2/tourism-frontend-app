@@ -9,7 +9,7 @@ const useUploadFilesToGalleriesMutate = (oMutationOpts: any | undefined) => {
     const toast = useToastView()
     const toastIdRef = React.useRef<any>()
     return useMutation(
-        async (data: { userId: string | number, rentId: string | number, files: FileList }) => await uploadFilesToGalleries(data),
+        async (data: { userId: string | number, rentId: string | number, files: FileList, names: string[] }) => await uploadFilesToGalleries(data),
         {
             ...oMutationOpts,
             onMutate: () => {

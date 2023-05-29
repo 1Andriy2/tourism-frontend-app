@@ -204,7 +204,7 @@ export default function HomePage() {
         </ParallaxLayer>
 
         <ParallaxLayer
-          offset={2.5}
+          offset={2}
           speed={0.8}
           style={{ filter: "grayscale(80%) opacity(25%)", zIndex: -1 }}
         >

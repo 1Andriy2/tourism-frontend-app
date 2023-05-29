@@ -26,7 +26,7 @@ export default function Contacts() {
         </Marker>
       </MapContainer>
       <ContactsForm />
-      <Center color="white">
+      <Center>
         <Heading>CONTACT INFO</Heading>
       </Center>
       <Flex
@@ -50,7 +50,7 @@ export default function Contacts() {
         >
           <BsFillTelephoneFill size={40} style={{ marginRight: "8px" }} />
           <Text fontWeight="bold">24*7 підтримка:</Text>
-          <Text ml={2}>0000-456-7892, 1800-222-7560</Text>
+          <Text ml={2}>068-456-78-92,<br/> 097-597-56-50</Text>
         </Box>
         <Box
           flex="1"
@@ -65,7 +65,7 @@ export default function Contacts() {
         >
           <MdLocalPostOffice size={69} style={{ marginRight: "8px" }} />
           <Text fontWeight="bold">Електронна пошта:</Text>
-          <Text ml={2}>demo@example.com, xdemo@example.com</Text>
+          <Text ml={2}>andrij@gmail.com, admin27@gmail.com</Text>
         </Box>
         <Box
           flex="1"
@@ -80,7 +80,7 @@ export default function Contacts() {
         >
           <BsClockFill size={44} style={{ marginRight: "8px" }} />
           <Text fontWeight="bold">Години роботи:</Text>
-          <Text ml={2}>10:00AM – 6:00PM, Неділя - вихідний</Text>
+          <Text ml={2}>9:00AM – 6:00PM,<br/> Неділя - вихідний</Text>
         </Box>
       </Flex>
     </Fragment>

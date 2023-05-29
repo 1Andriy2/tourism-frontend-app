@@ -22,9 +22,9 @@ export default function Aside({ isOpen, onClose }: { isOpen: boolean, onClose: (
                     <Center>
                         <Stack spacing={5} w={"200px"} divider={<Divider variant="dashed" />}>
                             <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.home}>Home</Button>
-                            <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.about}>Tourism</Button>
+                            <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.tourism}>Tourism</Button>
                             <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.about}>About</Button>
-                            <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.about}>Contacts</Button>
+                            <Button as={ReachLink} variant="outline" colorScheme="whatsapp" to={urls.contacts}>Contacts</Button>
                         </Stack>
                     </Center>
                 </DrawerBody>
@@ -32,7 +32,6 @@ export default function Aside({ isOpen, onClose }: { isOpen: boolean, onClose: (
                     <Button variant='outline' mr={3} onClick={onClose}>
                         Cancel
                     </Button>
-                    <Button colorScheme='blue'>Submit</Button>
                 </DrawerFooter>
             </DrawerContent>
         </Drawer >

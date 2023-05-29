@@ -26,8 +26,8 @@ export default function ContactForm() {
   });
 
   return (
-    <form style={{margin: "20px", padding: "50px", outline: "1px solid white", borderRadius: "12px"}} onSubmit={formik.handleSubmit}>
-      <Center color='white'>
+    <form style={{margin: "20px", padding: "50px", outline: "1px solid green", borderRadius: "12px"}} onSubmit={formik.handleSubmit}>
+      <Center>
         <Heading>CONTACT US</Heading>
       </Center>
       <FormControl isInvalid={!!formik.errors.name}>

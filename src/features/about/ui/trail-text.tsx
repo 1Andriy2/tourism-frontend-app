@@ -7,7 +7,7 @@ export default function TrailText({ ref, open, children }: { ref?: LegacyRef<HTM
         config: { mass: 5, tension: 500, friction: 100 },
         opacity: open ? 1 : 0,
         x: open ? 0 : 20,
-        height: open ? 110 : 0,
+        height: open ? 60 : 0,
         from: { opacity: 0, x: 20, height: 0 },
     })
 

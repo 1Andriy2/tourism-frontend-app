@@ -96,12 +96,12 @@ const TourismCard: ForwardRefRenderFunction<unknown, IToursimPlacesCard> =
                             onClick={() => mutate()}
                         />
                     </Tooltip>
-                    <Tooltip label="Rent">
+                    <Tooltip label="Book">
                         <IconButton
                             colorScheme="red"
                             variant="outline"
                             icon={<InfoIcon />}
-                            aria-label={"Rent"}
+                            aria-label={"Book"}
                             onClick={() => onOpenRentModal({ id, preview, title, description })}
                         />
                     </Tooltip>

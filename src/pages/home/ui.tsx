@@ -52,7 +52,6 @@ export default function HomePage() {
       }, []);
     return isLargerThan950 ? data : arr as IComments[][]
   }, [data, isLargerThan950])
-  console.log(transformData)
 
   return (
     <Fragment>

@@ -21,7 +21,7 @@ export default function ProfileForm({ openModal, onClose }: { openModal: () => v
 
     return (
         <form id="ProfileForm" onSubmit={formik.handleSubmit}>
-            <HStack mt={4} alignItems="baseline">
+            <HStack mt={4} alignItems="flex-end">
                 <FormControl isInvalid={!!(formik.errors.email && formik.touched.email)}>
                     <FormLabel>Input Email:</FormLabel>
                     <Input
@@ -55,7 +55,7 @@ export default function ProfileForm({ openModal, onClose }: { openModal: () => v
 
             <Divider my={8} />
 
-            <HStack mt={4} alignItems="baseline">
+            <HStack mt={4} alignItems="flex-end">
                 <FormControl isInvalid={!!(formik.errors.password && formik.touched.password)}>
                     <FormLabel>New Password:</FormLabel>
                     <Input

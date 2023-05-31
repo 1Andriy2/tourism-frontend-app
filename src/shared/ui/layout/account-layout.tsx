@@ -9,7 +9,7 @@ export default function AccountLayout() {
 
     return (
         <Box maxW="1000px" margin="0 auto">
-            <Grid templateColumns="300px 1fr" gap="8px">
+            <Grid templateColumns={["1fr", "300px 1fr"]} gap="8px">
                 <GridItem>
                     <Aside.AccoutAside />
                 </GridItem>

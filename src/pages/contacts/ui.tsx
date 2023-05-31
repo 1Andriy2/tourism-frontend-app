@@ -21,7 +21,7 @@ export default function Contacts() {
         />
         <Marker position={[49.8413, 24.0308]}>
           <Popup>
-            <b>TravelTours</b>
+            <b>TravelTours Agency</b>
           </Popup>
         </Marker>
       </MapContainer>
@@ -49,8 +49,13 @@ export default function Contacts() {
           maxHeight="80px"
         >
           <BsFillTelephoneFill size={40} style={{ marginRight: "8px" }} />
-          <Text fontWeight="bold">24*7 підтримка:</Text>
-          <Text ml={2}>068-456-78-92,<br/> 097-597-56-50</Text>
+          <Text fontWeight="bold" fontSize={["14px", "inherit"]}>
+            24*7 підтримка:
+          </Text>
+          <Text ml={2} fontSize={["12px", "inherit"]}>
+            068-456-78-92,
+            <br /> 097-597-56-50
+          </Text>
         </Box>
         <Box
           flex="1"
@@ -64,8 +69,12 @@ export default function Contacts() {
           maxHeight="80px"
         >
           <MdLocalPostOffice size={69} style={{ marginRight: "8px" }} />
-          <Text fontWeight="bold">Електронна пошта:</Text>
-          <Text ml={2}>andrij@gmail.com, admin27@gmail.com</Text>
+          <Text fontWeight="bold" fontSize={["14px", "inherit"]}>
+            Електронна пошта:
+          </Text>
+          <Text ml={2} fontSize={["12px", "inherit"]}>
+            andrij@gmail.com, admin27@gmail.com
+          </Text>
         </Box>
         <Box
           flex="1"
@@ -79,8 +88,13 @@ export default function Contacts() {
           maxHeight="80px"
         >
           <BsClockFill size={44} style={{ marginRight: "8px" }} />
-          <Text fontWeight="bold">Години роботи:</Text>
-          <Text ml={2}>9:00AM – 6:00PM,<br/> Неділя - вихідний</Text>
+          <Text fontWeight="bold" fontSize={["14px", "inherit"]}>
+            Години роботи:
+          </Text>
+          <Text ml={2} fontSize={["12px", "inherit"]}>
+            9:00AM – 6:00PM,
+            <br /> Неділя - вихідний
+          </Text>
         </Box>
       </Flex>
     </Fragment>

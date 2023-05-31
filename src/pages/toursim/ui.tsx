@@ -10,6 +10,7 @@ import usePaginateQuery from "../../shared/hooks/use-paginate-query"
 import useFilters from "../../features/tourism-category/model/use-filters"
 import TourismCard, { IToursimPlacesCollection } from "../../entities/tourism-card/ui/tourism-card"
 
+
 const MotionTourismCard = motion(forwardRef(TourismCard))
 
 const variants = {
@@ -32,6 +33,7 @@ export default function TourismPage() {
         fetchPreviousPage,
         hasNextPage,
         hasPreviousPage } = usePaginateQuery(state)
+        
 
     const result: IToursimPlacesCollection[] = useMemo(() => {
         const response: any[] = []
@@ -74,14 +76,14 @@ export default function TourismPage() {
     }
 
     return (
-        <Box px={8}>
+        <Box p={8}>
             <TourismCategory filterData={state} changer={dispatch} />
             <Divider my={5} height={5} />
 
             <Modal isOpen={isOpen && activeTourism !== null} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Rent: "{activeTourism?.title}";</ModalHeader>
+                    <ModalHeader>Book: "{activeTourism?.title}";</ModalHeader>
                     <ModalBody>
                         {activeTourism && <RentForm tourism={activeTourism} />}
                     </ModalBody>

@@ -10,7 +10,6 @@ import usePaginateQuery from "../../shared/hooks/use-paginate-query"
 import useFilters from "../../features/tourism-category/model/use-filters"
 import TourismCard, { IToursimPlacesCollection } from "../../entities/tourism-card/ui/tourism-card"
 
-
 const MotionTourismCard = motion(forwardRef(TourismCard))
 
 const variants = {
@@ -33,7 +32,7 @@ export default function TourismPage() {
         fetchPreviousPage,
         hasNextPage,
         hasPreviousPage } = usePaginateQuery(state)
-        
+
 
     const result: IToursimPlacesCollection[] = useMemo(() => {
         const response: any[] = []

@@ -32,7 +32,7 @@ export default function TourismCategory({ filterData, changer }: { filterData: I
                             <MenuItemOption value='asc' onClick={() => changer({ type: FilterActionKind.SetSort, payload: "asc" })}>Ascending</MenuItemOption>
                             <MenuItemOption value='desc' onClick={() => changer({ type: FilterActionKind.SetSort, payload: "desc" })}>Descending</MenuItemOption>
                         </MenuOptionGroup>
-                        <MenuOptionGroup title='Cities' type='checkbox'>
+                        <MenuOptionGroup title='Countries' type='checkbox'>
                             {isLoading && <Center><Spinner /></Center>}
                             {!isLoading && data && data.map(({ id, name }) => (
                                 <Box

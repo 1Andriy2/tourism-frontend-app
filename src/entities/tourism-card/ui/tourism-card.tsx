@@ -18,6 +18,7 @@ export interface IToursimPlacesCollection {
     id?: string
     title: string
     preview: string
+    country: string
     description: string
 }
 
@@ -26,7 +27,7 @@ export interface IToursimPlacesCard {
 }
 
 const TourismCard: ForwardRefRenderFunction<unknown, IToursimPlacesCard> =
-    ({ user, place: { id, preview, title, description }, onOpenRentModal }, ref: LegacyRef<any> | undefined) => {
+    ({ user, place: { id, preview, title, country, description }, onOpenRentModal }, ref: LegacyRef<any> | undefined) => {
         const toast = useToastView()
         const { mutate, isLoading } = useMutation(
             ["markPlace"],
@@ -79,7 +80,7 @@ const TourismCard: ForwardRefRenderFunction<unknown, IToursimPlacesCard> =
 
                         <Box position="absolute" top="8px" right="8px">
                             <Tag colorScheme="red">
-                                <TagLabel>Lviv</TagLabel>
+                                <TagLabel>{country}</TagLabel>
                             </Tag>
                         </Box>
                     </Box>
@@ -102,7 +103,7 @@ const TourismCard: ForwardRefRenderFunction<unknown, IToursimPlacesCard> =
                             variant="outline"
                             icon={<InfoIcon />}
                             aria-label={"Book"}
-                            onClick={() => onOpenRentModal({ id, preview, title, description })}
+                            onClick={() => onOpenRentModal({ id, preview, title, country, description })}
                         />
                     </Tooltip>
                 </CardFooter>

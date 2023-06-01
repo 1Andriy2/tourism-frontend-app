@@ -8,6 +8,7 @@ import { rentTourism } from "../../../shared/api";
 import { useToastView } from "../../../shared/hooks";
 import { useViewerAtom } from "../../../entities/viewer/model";
 import { IToursimPlacesCollection } from "../../../entities/tourism-card/ui/tourism-card";
+import { Validate } from "./valitators";
 
 export default function useRentForm(tour: IToursimPlacesCollection) {
     const toast = useToastView()
@@ -23,6 +24,7 @@ export default function useRentForm(tour: IToursimPlacesCollection) {
                 name: user?.name ? user.name : rent.name,
                 email: user?.email ? user.email : rent.email,
             },
+            validationSchema: Validate,
             onSubmit: (data) => {
                 try {
                     mutate({ tour_id: tour.id, user_id: user?.email ? user.email : data.email, ...data })

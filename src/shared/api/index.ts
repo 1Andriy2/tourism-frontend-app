@@ -169,8 +169,8 @@ export const fetchRents = async (user: IUserData | null): Promise<any[]> => {
 
 export const fetchBook = async () => {
     const docs = (await getDocs(collection(firestore, "book"))).docs
-    const name = docs.map(doc => ({id: doc.id, ...doc.data()}))
-    return name
+    const name = docs.map(doc => ({ id: doc.id, ...doc.data() }))
+    return name as { id: string, name: string }[]
 }
 
 export const rentTourism = async (data: IPayloadRent) => {

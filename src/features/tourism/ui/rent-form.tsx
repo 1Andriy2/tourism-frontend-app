@@ -7,6 +7,8 @@ import {
   InputLeftElement,
   InputRightAddon,
   Select,
+  FormErrorMessage,
+  FormControl
 } from "@chakra-ui/react";
 import { EmailIcon, PhoneIcon } from "@chakra-ui/icons";
 import { RiUserReceived2Line } from "react-icons/ri";
@@ -28,98 +30,114 @@ export default function RentForm({
     "book",
     fetchBook
   );
-  console.log(recommendData);
 
   return (
-    
     <form onSubmit={formik.handleSubmit}>
       <VStack spacing={4}>
-        <InputGroup size={"lg"}>
-          <InputLeftElement pointerEvents="none">
-            <RiUserReceived2Line />
-          </InputLeftElement>
-          <Input
-            name="name"
-            type={"text"}
-            placeholder="How we can call you"
-            value={formik.values.name}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={isSubmitingLoading}
-          />
-        </InputGroup>
+        <FormControl isInvalid={!!formik.errors.name}>
+          <InputGroup size={"lg"}>
+            <InputLeftElement pointerEvents="none">
+              <RiUserReceived2Line />
+            </InputLeftElement>
+            <Input
+              name="name"
+              type={"text"}
+              placeholder="How we can call you"
+              value={formik.values.name}
+              onBlur={formik.handleBlur}
+              onChange={formik.handleChange}
+              disabled={isSubmitingLoading}
+            />
+          </InputGroup>
+          <FormErrorMessage>{formik.errors.name}</FormErrorMessage>
+        </FormControl>
 
-        <InputGroup size={"lg"}>
-          <InputLeftElement pointerEvents="none">
-            <PhoneIcon color="gray.300" />
-          </InputLeftElement>
-          <Input
-            name="phone"
-            type={"number"}
-            placeholder="Your phone"
-            value={formik.values.phone}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={isSubmitingLoading}
-          />
-        </InputGroup>
+        <FormControl isInvalid={!!formik.errors.phone}>
+          <InputGroup size={"lg"}>
+            <InputLeftElement pointerEvents="none">
+              <PhoneIcon color="gray.300" />
+            </InputLeftElement>
+            <Input
+              name="phone"
+              type={"number"}
+              placeholder={"Your phone"}
+              value={formik.values.phone}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              disabled={isSubmitingLoading}
+            />
+          </InputGroup>
+          <FormErrorMessage>{formik.errors.phone}</FormErrorMessage>
+        </FormControl>
 
-        <InputGroup size={"lg"}>
-          <InputLeftElement pointerEvents="none">
-            <EmailIcon color="gray.300" />
-          </InputLeftElement>
-          <Input
-            name="email"
-            type={"email"}
-            placeholder="Your email"
-            value={formik.values.email}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={isSubmitingLoading}
-          />
-        </InputGroup>
-        
-        <Select placeholder="Select option">
-          {
-            recommendData && recommendData.map((data: any, key: any) => (
-                <option key={key}>{data.name}</option>
-            ))
-          }
-        </Select>
-        
-        <InputGroup size={"lg"}>
-          <InputLeftElement pointerEvents="none">
-            <BsFillCalendarDateFill />
-          </InputLeftElement>
-          Start Date
-          <Input
-            name="start_date"
-            type={"datetime-local"}
-            placeholder="Your start date"
-            value={formik.values.start_date.toString()}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={isSubmitingLoading}
-          />
-          <InputRightAddon w="100px" children="start date" />
-        </InputGroup>
+        <FormControl isInvalid={!!formik.errors.email}>
+          <InputGroup size={"lg"}>
+            <InputLeftElement pointerEvents="none">
+              <EmailIcon color="gray.300" />
+            </InputLeftElement>
+            <Input
+              name="email"
+              type={"email"}
+              placeholder="Your email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              disabled={isSubmitingLoading}
+            />
+          </InputGroup>
+          <FormErrorMessage>{formik.errors.email}</FormErrorMessage>
+        </FormControl>
 
-        <InputGroup size={"lg"}>
-          <InputLeftElement pointerEvents="none">
-            <BsFillCalendarDateFill />
-          </InputLeftElement>
-          End Date
-          <Input
-            name="end_date"
-            type={"datetime-local"}
-            placeholder="Your end date"
-            value={formik.values.end_date.toLocaleString()}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            disabled={isSubmitingLoading}
-          />
-          <InputRightAddon w="100px" children="end date" />
-        </InputGroup>
+        <FormControl isInvalid={!!formik.errors.service}>
+          <Select name="service" onBlur={formik.handleBlur} onChange={formik.handleChange} placeholder="Select services">
+            {
+              recommendData && recommendData.map((data, key: number) => (
+                <option key={key} value={data.name}>{data.name}</option>
+              ))
+            }
+          </Select>
+          <FormErrorMessage>{formik.errors.service}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl isInvalid={!!formik.errors.start_date}>
+          <InputGroup size={"lg"}>
+            <InputLeftElement pointerEvents="none">
+              <BsFillCalendarDateFill />
+            </InputLeftElement>
+            Start Date
+            <Input
+              name="start_date"
+              type={"datetime-local"}
+              placeholder="Your start date"
+              value={formik.values.start_date.toString()}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              disabled={isSubmitingLoading}
+            />
+            <InputRightAddon w="100px" children="start date" />
+          </InputGroup>
+          <FormErrorMessage>{formik.errors.start_date}</FormErrorMessage>
+        </FormControl>
+
+        <FormControl isInvalid={!!formik.errors.end_date}>
+          <InputGroup size={"lg"}>
+            <InputLeftElement pointerEvents="none">
+              <BsFillCalendarDateFill />
+            </InputLeftElement>
+            End Date
+            <Input
+              name="end_date"
+              type={"datetime-local"}
+              placeholder="Your end date"
+              value={formik.values.end_date.toLocaleString()}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              disabled={isSubmitingLoading}
+            />
+            <InputRightAddon w="100px" children="end date" />
+          </InputGroup>
+          <FormErrorMessage>{formik.errors.end_date}</FormErrorMessage>
+        </FormControl>
 
         <Textarea
           name="wishes"

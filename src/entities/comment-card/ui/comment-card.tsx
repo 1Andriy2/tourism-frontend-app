@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader, CardFooter, Image, Button, Flex, Box, Avatar, IconButton, Text, Heading, Tooltip } from "@chakra-ui/react"
+import { Card, CardBody, CardHeader, CardFooter, Flex, Box, Avatar, IconButton, Heading, Tooltip } from "@chakra-ui/react"
 
 import { BsThreeDotsVertical } from "react-icons/bs"
 
@@ -48,7 +48,6 @@ export default function Commentard({ id, name, title, text }: IComments ) {
                     },
                 }}
             >
-
             </CardFooter>
         </Card>
     )

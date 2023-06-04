@@ -1,15 +1,11 @@
 import { Link as ReachLink } from "react-router-dom"
 import { useFormik } from "formik"
 import { ArrowLeftIcon } from "@chakra-ui/icons"
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { FormControl, FormLabel, Input, Button, FormErrorMessage, VStack } from "@chakra-ui/react"
-
-import { useToastView } from "../../../shared/hooks"
 
 import { urls } from "../../../shared/config"
 import { LOG_IN_STATE } from "../lib/constant"
 import { LogInSchema } from "../model/validators"
-import { useViewerAtom } from "../../../entities/viewer/model";
 import useLogInMutate from "../model/use-login-mutate";
 
 export default function LogInForm() {
@@ -29,7 +25,7 @@ export default function LogInForm() {
             <Button as={ReachLink} to={urls.home} leftIcon={<ArrowLeftIcon />} mb={5}>Return to home page</Button>
 
             <VStack spacing={5}>
-                <FormControl isInvalid={!!(formik.errors.email && formik.touched.email)}>
+                <FormControl isInvalid={!!(formik.errors.email && formik.touched.email)}> 
                     <FormLabel>Input Email:</FormLabel>
                     <Input
                         type="email"

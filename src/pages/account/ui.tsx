@@ -25,13 +25,15 @@ export default function AccountPage() {
         onSuccess: (data) => checkConfirmed(data),
         enabled: pinCode.length === 4
     })
+    
+    function checkConfirmed(data: unknown) {        
+        if (data === code) {
+            console.log(data === null);
 
-    function checkConfirmed(data: unknown) {
-        if (data === null) {
-            toast({ title: 'This code is no valid', status: 'error' })
-        } else {
             toast({ title: 'Confirmed', status: 'success' })
             document.getElementById("accountSubmit")?.click()
+        } else {
+            toast({ title: 'This code is no valid', status: 'error' })
         }
     }
 
@@ -48,9 +50,9 @@ export default function AccountPage() {
             <Modal isOpen={isOpen} onClose={onClose} size="lg">
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Confirm code</ModalHeader>
+                    <ModalHeader>Confirm email</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody>
+                    {/* <ModalBody>
 
                         <HStack justify="center">
                             <PinInput size="lg" otp value={pinCode} onChange={val => setPinCode(val)}>
@@ -60,19 +62,19 @@ export default function AccountPage() {
                                 <PinInputField />
                             </PinInput>
                         </HStack>
-                    </ModalBody>
+                    </ModalBody> */}
 
                     <ModalFooter display="flex" justifyContent="space-between">
                         <HStack>
                             <Text fontSize={15}>
-                                Sent to email code
+                                Sent to email message
                             </Text>
                             <Highlight query={data?.email ? data.email : "xd"} styles={{ fontSize: 14, px: '2', py: '1', rounded: 'full', bg: 'red.100' }}>
                                 {data?.email ? data.email : "xd"}
                             </Highlight>
                         </HStack>
-                        <Button isLoading={sendLoading || checkLoading} onClick={() => mutate(data?.email)} variant='solid'>Send Code</Button>
-                        <Button display="none" id="accountSubmit" type="submit" form="ProfileForm" variant='solid'>Submit</Button>
+                        <Button mx="5px" isLoading={sendLoading || checkLoading} onClick={() => mutate(data?.email)} variant='solid'>Send Message</Button>
+                        {/* <Button display="none" id="accountSubmit" type="submit" form="ProfileForm" variant='solid'>Submit</Button> */}
                     </ModalFooter>
                 </ModalContent>
             </Modal>

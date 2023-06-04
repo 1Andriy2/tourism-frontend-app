@@ -53,7 +53,7 @@ export default function ProfileForm({ openModal, onClose }: { openModal: () => v
                 </FormControl>
             </HStack>
 
-            <Divider my={8} />
+            {/* <Divider my={8} />
 
             <HStack mt={4} alignItems="flex-end">
                 <FormControl isInvalid={!!(formik.errors.password && formik.touched.password)}>
@@ -85,13 +85,16 @@ export default function ProfileForm({ openModal, onClose }: { openModal: () => v
                     />
                     <FormErrorMessage>{formik.errors.confirmPassword}</FormErrorMessage>
                 </FormControl>
-            </HStack>
+            </HStack> */}
 
             <Divider my={8} />
 
-            <Flex justifyContent={"right"}>
+            <Flex justifyContent={"right"} gap="5px">
+                <Button type="submit">
+                    Change name
+                </Button>
                 <Button type="button" onClick={openModal} isLoading={isLoading} isDisabled={isLoading}>
-                    Refresh Account
+                    Change password
                 </Button>
             </Flex>
         </form>

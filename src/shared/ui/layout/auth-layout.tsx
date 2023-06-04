@@ -3,10 +3,6 @@ import { Box } from '@chakra-ui/react'
 
 import { useRestrictedRoute } from '../../../entities/viewer/model'
 
-const styles = {
-
-}
-
 export default function AuthLayout() {
     useRestrictedRoute()
 

@@ -124,8 +124,11 @@ export const markPlace = async (title: string, user: IUserData | null) => {
 }
 
 export const getCoutries = async () => {
-    const docs = (await getDocs(collection(firestore, "countries"))).docs
+    const q = query(collection(firestore, "countries"), orderBy("name"))
+
+    const docs = (await getDocs(q)).docs
     const countries = docs.map(doc => ({ id: doc.id, ...doc.data() }))
+    
     return countries as ICoutries[]
 }
 

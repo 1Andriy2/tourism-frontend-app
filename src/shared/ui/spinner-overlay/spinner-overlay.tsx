@@ -1,4 +1,4 @@
-import { Spinner, Progress } from "@chakra-ui/react";
+import { Spinner } from "@chakra-ui/react";
 
 import { FixedCenter } from "../";
 

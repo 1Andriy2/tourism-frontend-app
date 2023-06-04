@@ -31,20 +31,20 @@ export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
     const pathname = useLocation().pathname
     const { isAuthenticated, authData } = useViewerAtom()
 
-    const [isLargerThan800] = useMediaQuery("(max-width:950px)")
+    const [isLargerThan950] = useMediaQuery("(max-width:950px)")
     const { isLight, toggleColorMode } = UseModel.useThemeMode()
 
     return (
         <Fragment>
             <HStack spacing={50}>
                 <Icon as={AtSignIcon} height={43} width={43} color="whatsapp.400" />
-                <HStack spacing={5} display={isLargerThan800 ? "none" : "flex"}>
+                <HStack spacing={5} display={isLargerThan950 ? "none" : "flex"}>
                     {navLinks.map(({ path, label }) => (
                         <Button key={path} as={ReachLink} variant={path === pathname ? "solid" : "outline"} colorScheme="whatsapp" to={path}>{label}</Button>
                     ))}
                 </HStack>
             </HStack>
-            <HStack spacing={isLargerThan800 ? 2 : 5}>
+            <HStack spacing={isLargerThan950 ? 2 : 5}>
                 {isAuthenticated ? (
                     <UserPoppup>
                         <Avatar w={10} h={10} name={authData.data?.name} cursor="pointer" />
@@ -62,7 +62,7 @@ export default function NavList({ onOpenAside }: { onOpenAside: () => void }) {
                 <Button variant={"unstyled"} onClick={toggleColorMode}>
                     <Icon as={isLight ? SunIcon : MoonIcon} height={18} width={18} color="whatsapp.400" />
                 </Button>
-                <Button variant={"unstyled"} onClick={onOpenAside} display={isLargerThan800 ? "block" : "none"}>
+                <Button variant={"unstyled"} onClick={onOpenAside} display={isLargerThan950 ? "block" : "none"}>
                     <Icon as={HamburgerIcon} height={18} width={18} color="whatsapp.400" />
                 </Button>
             </HStack>

@@ -79,6 +79,11 @@ export const sendCodeManageAccount = async (email: any) => {
     return data
 }
 
+export const resetPassword = async (email: string) => {
+    const data = await sendPasswordResetEmail(auth, email)
+    return data
+}
+
 export const getViewerByEmail = async (email: string) => {
     const viewers = await getViewers()
     const response = viewers.find(viewer => viewer.email === email)

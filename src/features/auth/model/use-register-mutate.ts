@@ -5,12 +5,16 @@ import { useToastView } from "../../../shared/hooks";
 import { IUserData } from "../../../entities/viewer/store";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 7479b66284716956212e7746683e6adccee580dc
 import { useViewerAtom } from "../../../entities/viewer/model";
 
 export default function useRegisterMutate(oMutationOpts = {}) {
     const toast = useToastView()
     const { setAuthData } = useViewerAtom()
 
+<<<<<<< HEAD
 =======
 
 export default function useRegisterMutate(oMutationOpts = {}) {
@@ -25,6 +29,8 @@ export default function useRegisterMutate(oMutationOpts = {}) {
     const { setAuthData } = useViewerAtom()
 
 >>>>>>> 6e8ab80 (add mutate: register)
+=======
+>>>>>>> 7479b66284716956212e7746683e6adccee580dc
     return useMutation(
         async (oCredentials: Omit<IUserData, "places">) => await registerViwer(oCredentials),
         {
@@ -35,12 +41,16 @@ export default function useRegisterMutate(oMutationOpts = {}) {
             onSuccess: (data) => {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 >>>>>>> 6e8ab80 (add mutate: register)
+=======
+>>>>>>> 7479b66284716956212e7746683e6adccee580dc
                 if (data?.token) {
                     setAuthData({ token: data.token, data: data.viewer })
                     toast({ title: "Account created." })
                 }
+<<<<<<< HEAD
 <<<<<<< HEAD
             },
             onError: (err) => {
@@ -58,6 +68,11 @@ export default function useRegisterMutate(oMutationOpts = {}) {
             onError: (err) => {
                 toast({ title: (err as Error).message })
 >>>>>>> 6e8ab80 (add mutate: register)
+=======
+            },
+            onError: (err) => {
+                toast({ title: (err as Error).message })
+>>>>>>> 7479b66284716956212e7746683e6adccee580dc
             }
         }
     )
